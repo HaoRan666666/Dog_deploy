@@ -1,0 +1,39 @@
+[0.007s] Invoking command in '/home/rp/Dog_deploy/build/roboparty_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy CONDA_PROMPT_MODIFIER=(env_isaaclab) DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/rp/Dog_deploy/build/roboparty_imu -- -j14 -l14
+[0.085s] [  6%] [34m[1mGenerating Rust code for ROS interfaces[0m
+[0.086s] [  6%] [32mBuilding CXX object CMakeFiles/imu_reader_lib.dir/src/serial_port.cpp.o[0m
+[0.086s] [  6%] [34m[1mGenerating type hashes for ROS interfaces[0m
+[0.086s] [ 11%] [32mBuilding CXX object CMakeFiles/imu_reader_lib.dir/src/imu_reader.cpp.o[0m
+[0.086s] [ 11%] [32mBuilding CXX object CMakeFiles/imu_reader_lib.dir/src/imu_parser.cpp.o[0m
+[0.086s] [ 13%] [32mBuilding CXX object CMakeFiles/imu_reader_lib.dir/src/crc16.cpp.o[0m
+[0.090s] [ 13%] Built target ament_cmake_python_copy_roboparty_imu
+[0.329s] [ 13%] Built target roboparty_imu__rosidl_generator_type_description
+[0.339s] [ 15%] [34m[1mGenerating C code for ROS interfaces[0m
+[0.347s] [ 18%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[0.348s] [ 18%] Built target roboparty_imu__rs
+[0.392s] [ 20%] [32m[1mLinking CXX static library libimu_reader_lib.a[0m
+[0.423s] [ 20%] Built target imu_reader_lib
+[0.431s] running egg_info
+[0.437s] creating roboparty_imu.egg-info
+[0.437s] [ 22%] [32mBuilding CXX object CMakeFiles/imu_driver.dir/src/imu_driver.cpp.o[0m
+[0.437s] writing roboparty_imu.egg-info/PKG-INFO
+[0.437s] writing dependency_links to roboparty_imu.egg-info/dependency_links.txt
+[0.438s] writing top-level names to roboparty_imu.egg-info/top_level.txt
+[0.441s] writing manifest file 'roboparty_imu.egg-info/SOURCES.txt'
+[0.443s] [01m[K/home/rp/Dog_deploy/src/imu/imu_ros2/src/imu_driver.cpp:4:10:[m[K [01;31m[Kfatal error: [m[Kimu_ros2/imu_driver.hpp: 没有那个文件或目录
+[0.444s]     4 | #include [01;31m[K"imu_ros2/imu_driver.hpp"[m[K
+[0.444s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[0.444s] compilation terminated.
+[0.444s] gmake[2]: *** [CMakeFiles/imu_driver.dir/build.make:76：CMakeFiles/imu_driver.dir/src/imu_driver.cpp.o] 错误 1
+[0.445s] gmake[1]: *** [CMakeFiles/Makefile2:702：CMakeFiles/imu_driver.dir/all] 错误 2
+[0.445s] gmake[1]: *** 正在等待未完成的任务....
+[0.457s] reading manifest file 'roboparty_imu.egg-info/SOURCES.txt'
+[0.458s] writing manifest file 'roboparty_imu.egg-info/SOURCES.txt'
+[0.482s] [ 22%] Built target ament_cmake_python_build_roboparty_imu_egg
+[0.488s] [ 22%] Built target roboparty_imu__cpp
+[0.501s] [ 29%] [32mBuilding C object CMakeFiles/roboparty_imu__rosidl_generator_c.dir/rosidl_generator_c/roboparty_imu/msg/detail/imu_data__description.c.o[0m
+[0.501s] [ 29%] [32mBuilding C object CMakeFiles/roboparty_imu__rosidl_generator_c.dir/rosidl_generator_c/roboparty_imu/msg/detail/imu_data__type_support.c.o[0m
+[0.501s] [ 29%] [32mBuilding C object CMakeFiles/roboparty_imu__rosidl_generator_c.dir/rosidl_generator_c/roboparty_imu/msg/detail/imu_data__functions.c.o[0m
+[0.591s] [ 31%] [32m[1mLinking C shared library libroboparty_imu__rosidl_generator_c.so[0m
+[0.629s] [ 31%] Built target roboparty_imu__rosidl_generator_c
+[0.630s] gmake: *** [Makefile:146：all] 错误 2
+[0.631s] Invoked command in '/home/rp/Dog_deploy/build/roboparty_imu' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy CONDA_PROMPT_MODIFIER=(env_isaaclab) DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/rp/Dog_deploy/build/roboparty_imu -- -j14 -l14

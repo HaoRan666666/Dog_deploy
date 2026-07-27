@@ -1,0 +1,5 @@
+source;share/roboparty_motors/local_setup.bash
+source;share/roboparty_motors/local_setup.dsv
+source;share/roboparty_motors/local_setup.ps1
+source;share/roboparty_motors/local_setup.sh
+source;share/roboparty_motors/local_setup.zsh

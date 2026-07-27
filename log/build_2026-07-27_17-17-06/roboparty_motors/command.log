@@ -1,0 +1,1 @@
+Invoking command in '/home/rp/Dog_deploy/build/roboparty_motors': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy CONDA_PROMPT_MODIFIER=(base) DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/rp/Dog_deploy/src/motors -DCMAKE_INSTALL_PREFIX=/home/rp/Dog_deploy/install/roboparty_motors

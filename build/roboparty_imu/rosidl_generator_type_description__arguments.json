@@ -1,0 +1,7 @@
+{
+  "package_name": "roboparty_imu",
+  "output_dir": "/home/rp/Dog_deploy/build/roboparty_imu/rosidl_generator_type_description/roboparty_imu",
+  "idl_tuples": [
+    "/home/rp/Dog_deploy/build/roboparty_imu/rosidl_adapter/roboparty_imu:msg/IMUData.idl"
+  ]
+}

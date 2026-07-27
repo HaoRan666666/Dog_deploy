@@ -1,0 +1,27 @@
+[  2%] Built target roboparty_imu__rosidl_generator_type_description
+[  4%] Built target roboparty_imu__rs
+[  4%] Built target ament_cmake_python_copy_roboparty_imu
+[ 15%] Built target imu_reader_lib
+[ 18%] Built target roboparty_imu__cpp
+[ 29%] Built target roboparty_imu__rosidl_generator_c
+[ 34%] Built target imu_driver
+[ 47%] Built target roboparty_imu__rosidl_typesupport_introspection_c
+[ 47%] Built target roboparty_imu__rosidl_typesupport_c
+[ 54%] Built target roboparty_imu__rosidl_typesupport_cpp
+[ 61%] Built target roboparty_imu__rosidl_typesupport_fastrtps_cpp
+[ 75%] Built target roboparty_imu__rosidl_typesupport_introspection_cpp
+[ 75%] Built target roboparty_imu__rosidl_typesupport_fastrtps_c
+[ 75%] Built target roboparty_imu
+[ 79%] Built target roboparty_imu__py
+[ 79%] [32mBuilding CXX object CMakeFiles/imu_node.dir/src/imu_node.cpp.o[0m
+[ 84%] Built target roboparty_imu__rosidl_generator_py
+[ 88%] Built target roboparty_imu_s__rosidl_typesupport_fastrtps_c
+[ 95%] Built target roboparty_imu_s__rosidl_typesupport_introspection_c
+[ 97%] Built target roboparty_imu_s__rosidl_typesupport_c
+running egg_info
+writing roboparty_imu.egg-info/PKG-INFO
+writing dependency_links to roboparty_imu.egg-info/dependency_links.txt
+writing top-level names to roboparty_imu.egg-info/top_level.txt
+reading manifest file 'roboparty_imu.egg-info/SOURCES.txt'
+writing manifest file 'roboparty_imu.egg-info/SOURCES.txt'
+[ 97%] Built target ament_cmake_python_build_roboparty_imu_egg

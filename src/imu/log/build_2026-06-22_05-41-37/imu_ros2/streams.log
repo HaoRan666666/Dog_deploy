@@ -1,0 +1,195 @@
+[0.006s] Invoking command in '/home/xhr/Dog_VMC/Module/imu/build/imu_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/xhr/Dog_VMC/Module/imu/build/imu_ros2 -- -j24 -l24
+[0.040s] Consolidate compiler generated dependencies of target imu_ros2__rosidl_generator_c
+[0.040s] Consolidate compiler generated dependencies of target imu_reader_lib
+[0.046s] [  2%] Built target imu_ros2__cpp
+[0.047s] [ 10%] Built target imu_ros2__rosidl_generator_c
+[0.048s] [ 10%] Built target ament_cmake_python_copy_imu_ros2
+[0.048s] [ 13%] Building CXX object CMakeFiles/imu_reader_lib.dir/src/imu_reader.cpp.o
+[0.051s] [ 15%] Generating C++ introspection for ROS interfaces
+[0.052s] [ 18%] Generating C++ type support dispatch for ROS interfaces
+[0.054s] [ 21%] Generating C++ type support for eProsima Fast-RTPS
+[0.057s] [ 23%] Generating C type support dispatch for ROS interfaces
+[0.058s] [ 26%] Generating C type support for eProsima Fast-RTPS
+[0.060s] [ 28%] Generating C introspection for ROS interfaces
+[0.204s] [ 31%] Building CXX object CMakeFiles/imu_ros2__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/imu_ros2/msg/imu_data__type_support.cpp.o
+[0.204s] running egg_info
+[0.205s] writing imu_ros2.egg-info/PKG-INFO
+[0.205s] writing dependency_links to imu_ros2.egg-info/dependency_links.txt
+[0.205s] writing top-level names to imu_ros2.egg-info/top_level.txt
+[0.206s] reading manifest file 'imu_ros2.egg-info/SOURCES.txt'
+[0.206s] writing manifest file 'imu_ros2.egg-info/SOURCES.txt'
+[0.212s] [ 34%] Building CXX object CMakeFiles/imu_ros2__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/imu_ros2/msg/detail/imu_data__type_support.cpp.o
+[0.219s] [ 36%] Building C object CMakeFiles/imu_ros2__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/imu_ros2/msg/detail/imu_data__type_support.c.o
+[0.220s] [ 36%] Built target ament_cmake_python_build_imu_ros2_egg
+[0.222s] [ 39%] Building CXX object CMakeFiles/imu_ros2__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/imu_ros2/msg/detail/dds_fastrtps/imu_data__type_support.cpp.o
+[0.223s] [ 42%] Building CXX object CMakeFiles/imu_ros2__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/imu_ros2/msg/detail/imu_data__type_support_c.cpp.o
+[0.232s] [ 44%] Building CXX object CMakeFiles/imu_ros2__rosidl_typesupport_c.dir/rosidl_typesupport_c/imu_ros2/msg/imu_data__type_support.cpp.o
+[0.236s] [ 47%] Linking C shared library libimu_ros2__rosidl_typesupport_introspection_c.so
+[0.251s] [ 50%] Linking CXX shared library libimu_ros2__rosidl_typesupport_c.so
+[0.258s] [ 50%] Built target imu_ros2__rosidl_typesupport_introspection_c
+[0.263s] [ 52%] Linking CXX static library libimu_reader_lib.a
+[0.279s] [ 52%] Built target imu_ros2__rosidl_typesupport_c
+[0.304s] [ 60%] Built target imu_reader_lib
+[0.325s] [ 63%] Linking CXX shared library libimu_ros2__rosidl_typesupport_cpp.so
+[0.349s] [ 63%] Built target imu_ros2__rosidl_typesupport_cpp
+[0.402s] [ 65%] Linking CXX shared library libimu_ros2__rosidl_typesupport_fastrtps_c.so
+[0.403s] [ 68%] Linking CXX shared library libimu_ros2__rosidl_typesupport_introspection_cpp.so
+[0.406s] [ 71%] Linking CXX shared library libimu_ros2__rosidl_typesupport_fastrtps_cpp.so
+[0.431s] [ 71%] Built target imu_ros2__rosidl_typesupport_introspection_cpp
+[0.444s] [ 71%] Built target imu_ros2__rosidl_typesupport_fastrtps_c
+[0.446s] [ 71%] Built target imu_ros2__rosidl_typesupport_fastrtps_cpp
+[0.461s] [ 71%] Built target imu_ros2
+[0.476s] [ 73%] Generating Python code for ROS interfaces
+[0.476s] [ 76%] Building CXX object CMakeFiles/imu_node.dir/src/imu_node.cpp.o
+[0.651s] [ 76%] Built target imu_ros2__py
+[0.665s] [ 78%] Building C object CMakeFiles/imu_ros2__rosidl_generator_py.dir/rosidl_generator_py/imu_ros2/msg/_imu_data_s.c.o
+[0.718s] [ 81%] Linking C shared library rosidl_generator_py/imu_ros2/libimu_ros2__rosidl_generator_py.so
+[0.745s] [ 81%] Built target imu_ros2__rosidl_generator_py
+[0.759s] [ 86%] Building C object CMakeFiles/imu_ros2__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/imu_ros2/_imu_ros2_s.ep.rosidl_typesupport_introspection_c.c.o
+[0.759s] [ 86%] Building C object CMakeFiles/imu_ros2__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/imu_ros2/_imu_ros2_s.ep.rosidl_typesupport_c.c.o
+[0.760s] [ 89%] Building C object CMakeFiles/imu_ros2__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/imu_ros2/_imu_ros2_s.ep.rosidl_typesupport_fastrtps_c.c.o
+[0.807s] [ 94%] Linking C shared library rosidl_generator_py/imu_ros2/imu_ros2_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[0.807s] [ 94%] Linking C shared library rosidl_generator_py/imu_ros2/imu_ros2_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[0.814s] [ 97%] Linking C shared library rosidl_generator_py/imu_ros2/imu_ros2_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[0.829s] [ 97%] Built target imu_ros2__rosidl_typesupport_c__pyext
+[0.829s] [ 97%] Built target imu_ros2__rosidl_typesupport_introspection_c__pyext
+[0.838s] [ 97%] Built target imu_ros2__rosidl_typesupport_fastrtps_c__pyext
+[2.460s] [100%] Linking CXX executable imu_node
+[2.559s] [100%] Built target imu_node
+[2.568s] Invoked command in '/home/xhr/Dog_VMC/Module/imu/build/imu_ros2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/xhr/Dog_VMC/Module/imu/build/imu_ros2 -- -j24 -l24
+[2.575s] Invoking command in '/home/xhr/Dog_VMC/Module/imu/build/imu_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/xhr/Dog_VMC/Module/imu/build/imu_ros2
+[2.580s] -- Install configuration: ""
+[2.580s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/ament_index/resource_index/rosidl_interfaces/imu_ros2
+[2.580s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2
+[2.580s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg
+[2.580s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/rosidl_generator_c__visibility_control.h
+[2.580s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/imu_data.h
+[2.580s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail
+[2.581s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__functions.c
+[2.581s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__type_support.h
+[2.581s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__struct.h
+[2.581s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__functions.h
+[2.581s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/environment/library_path.sh
+[2.581s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/environment/library_path.dsv
+[2.581s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_generator_c.so
+[2.581s] -- Set runtime path of "/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_generator_c.so" to ""
+[2.581s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2
+[2.581s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg
+[2.581s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[2.581s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail
+[2.581s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__rosidl_typesupport_fastrtps_c.h
+[2.581s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_typesupport_fastrtps_c.so
+[2.581s] -- Set runtime path of "/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_typesupport_fastrtps_c.so" to ""
+[2.581s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2
+[2.582s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg
+[2.582s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail
+[2.582s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__struct.hpp
+[2.582s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__builder.hpp
+[2.582s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__type_support.hpp
+[2.582s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__traits.hpp
+[2.582s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/imu_data.hpp
+[2.582s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/rosidl_generator_cpp__visibility_control.hpp
+[2.582s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2
+[2.582s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg
+[2.582s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[2.582s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail
+[2.582s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/dds_fastrtps
+[2.582s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__rosidl_typesupport_fastrtps_cpp.hpp
+[2.582s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_typesupport_fastrtps_cpp.so
+[2.583s] -- Set runtime path of "/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_typesupport_fastrtps_cpp.so" to ""
+[2.583s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2
+[2.583s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg
+[2.583s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[2.583s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail
+[2.583s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__rosidl_typesupport_introspection_c.h
+[2.583s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__type_support.c
+[2.583s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_typesupport_introspection_c.so
+[2.583s] -- Set runtime path of "/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_typesupport_introspection_c.so" to ""
+[2.583s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_typesupport_c.so
+[2.583s] -- Set runtime path of "/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_typesupport_c.so" to ""
+[2.583s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2
+[2.583s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg
+[2.583s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail
+[2.583s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__type_support.cpp
+[2.583s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/include/imu_ros2/imu_ros2/msg/detail/imu_data__rosidl_typesupport_introspection_cpp.hpp
+[2.583s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_typesupport_introspection_cpp.so
+[2.583s] -- Set runtime path of "/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_typesupport_introspection_cpp.so" to ""
+[2.583s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_typesupport_cpp.so
+[2.583s] -- Set runtime path of "/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_typesupport_cpp.so" to ""
+[2.583s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/environment/pythonpath.sh
+[2.583s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/environment/pythonpath.dsv
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2-0.1.0-py3.10.egg-info
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2-0.1.0-py3.10.egg-info/SOURCES.txt
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2-0.1.0-py3.10.egg-info/dependency_links.txt
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2-0.1.0-py3.10.egg-info/PKG-INFO
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2-0.1.0-py3.10.egg-info/top_level.txt
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/imu_ros2_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/imu_ros2_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/_imu_ros2_s.ep.rosidl_typesupport_fastrtps_c.c
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/msg
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/msg/_imu_data_s.c
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/msg/_imu_data.py
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/msg/__init__.py
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/_imu_ros2_s.ep.rosidl_typesupport_introspection_c.c
+[2.584s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/__init__.py
+[2.585s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/imu_ros2_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[2.585s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/libimu_ros2__rosidl_generator_py.so
+[2.585s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/_imu_ros2_s.ep.rosidl_typesupport_c.c
+[2.608s] Listing '/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2'...
+[2.608s] Compiling '/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/__init__.py'...
+[2.608s] Listing '/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/msg'...
+[2.608s] Compiling '/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/msg/__init__.py'...
+[2.608s] Compiling '/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/msg/_imu_data.py'...
+[2.610s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/imu_ros2_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[2.610s] -- Set runtime path of "/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/imu_ros2_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""
+[2.610s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/imu_ros2_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[2.610s] -- Set runtime path of "/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/imu_ros2_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so" to ""
+[2.611s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/imu_ros2_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[2.611s] -- Set runtime path of "/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/local/lib/python3.10/dist-packages/imu_ros2/imu_ros2_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" to ""
+[2.611s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_generator_py.so
+[2.611s] -- Set runtime path of "/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/libimu_ros2__rosidl_generator_py.so" to ""
+[2.611s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/msg/IMUData.idl
+[2.611s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/msg/IMUData.msg
+[2.611s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/imu_ros2/imu_node
+[2.611s] -- Set runtime path of "/home/xhr/Dog_VMC/Module/imu/install/imu_ros2/lib/imu_ros2/imu_node" to ""
+[2.611s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/ament_index/resource_index/package_run_dependencies/imu_ros2
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/ament_index/resource_index/parent_prefix_path/imu_ros2
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/environment/ament_prefix_path.sh
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/environment/ament_prefix_path.dsv
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/environment/path.sh
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/environment/path.dsv
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/local_setup.bash
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/local_setup.sh
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/local_setup.zsh
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/local_setup.dsv
+[2.612s] -- Up-to-date: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/package.dsv
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/ament_index/resource_index/packages/imu_ros2
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/export_imu_ros2__rosidl_generator_cExport.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/export_imu_ros2__rosidl_generator_cExport-noconfig.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/export_imu_ros2__rosidl_typesupport_fastrtps_cExport.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/export_imu_ros2__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/export_imu_ros2__rosidl_generator_cppExport.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/export_imu_ros2__rosidl_typesupport_fastrtps_cppExport.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/export_imu_ros2__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/imu_ros2__rosidl_typesupport_introspection_cExport.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/imu_ros2__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/imu_ros2__rosidl_typesupport_cExport.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/imu_ros2__rosidl_typesupport_cExport-noconfig.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/imu_ros2__rosidl_typesupport_introspection_cppExport.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/imu_ros2__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[2.612s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/imu_ros2__rosidl_typesupport_cppExport.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/imu_ros2__rosidl_typesupport_cppExport-noconfig.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/export_imu_ros2__rosidl_generator_pyExport.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/export_imu_ros2__rosidl_generator_pyExport-noconfig.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/rosidl_cmake-extras.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/ament_cmake_export_include_directories-extras.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/ament_cmake_export_libraries-extras.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/ament_cmake_export_targets-extras.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/ament_cmake_export_dependencies-extras.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/imu_ros2Config.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/cmake/imu_ros2Config-version.cmake
+[2.613s] -- Installing: /home/xhr/Dog_VMC/Module/imu/install/imu_ros2/share/imu_ros2/package.xml
+[2.614s] Invoked command in '/home/xhr/Dog_VMC/Module/imu/build/imu_ros2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/xhr/Dog_VMC/Module/imu/build/imu_ros2

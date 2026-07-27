@@ -1,0 +1,17 @@
+{
+  "package_name": "roboparty_imu",
+  "output_dir": "/home/rp/Dog_deploy/build/roboparty_imu/rosidl_typesupport_cpp/roboparty_imu",
+  "template_dir": "/opt/ros/jazzy/share/rosidl_typesupport_cpp/resource",
+  "idl_tuples": [
+    "/home/rp/Dog_deploy/build/roboparty_imu/rosidl_adapter/roboparty_imu:msg/IMUData.idl"
+  ],
+  "target_dependencies": [
+    "/opt/ros/jazzy/lib/rosidl_typesupport_cpp/rosidl_typesupport_cpp",
+    "/opt/ros/jazzy/lib/python3.12/site-packages/rosidl_typesupport_cpp/__init__.py",
+    "/opt/ros/jazzy/share/rosidl_typesupport_cpp/resource/action__type_support.cpp.em",
+    "/opt/ros/jazzy/share/rosidl_typesupport_cpp/resource/idl__type_support.cpp.em",
+    "/opt/ros/jazzy/share/rosidl_typesupport_cpp/resource/msg__type_support.cpp.em",
+    "/opt/ros/jazzy/share/rosidl_typesupport_cpp/resource/srv__type_support.cpp.em",
+    "/home/rp/Dog_deploy/build/roboparty_imu/rosidl_adapter/roboparty_imu/msg/IMUData.idl"
+  ]
+}

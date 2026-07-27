@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblro_motors.a CMakeFiles/lro_motors.dir/lro_motor_driver.cpp.o CMakeFiles/lro_motors.dir/lro_motor_driver_can.cpp.o
+/usr/bin/ranlib liblro_motors.a

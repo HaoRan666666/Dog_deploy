@@ -1,0 +1,50 @@
+[0.007s] Invoking command in '/home/rp/Dog_deploy/build/roboparty_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy CONDA_PROMPT_MODIFIER=(base) DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/rp/Dog_deploy/src/imu/imu_ros2 -DCMAKE_INSTALL_PREFIX=/home/rp/Dog_deploy/install/roboparty_imu
+[0.042s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.249s] -- Found rclcpp: 28.1.21 (/opt/ros/jazzy/share/rclcpp/cmake)
+[0.271s] -- Found rosidl_generator_c: 4.6.9 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[0.277s] -- Found rosidl_generator_cpp: 4.6.9 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[0.284s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.294s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.336s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[0.337s] -- Found rmw_fastrtps_cpp: 8.4.4 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[0.383s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.431s] -- Found rosidl_default_generators: 1.6.1 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)
+[0.440s] -- Found rosidl_adapter: 4.6.9 (/opt/ros/jazzy/share/rosidl_adapter/cmake)
+[0.442s] -- Found std_msgs: 5.3.8 (/opt/ros/jazzy/share/std_msgs/cmake)
+[0.586s] [31mCMake Error at /opt/ros/jazzy/share/rosidl_adapter/cmake/rosidl_adapt_interfaces.cmake:57 (message):
+[0.586s]   execute_process(/home/rp/miniconda3/bin/python3 -m rosidl_adapter
+[0.586s]   --package-name roboparty_imu --arguments-file
+[0.586s]   /home/rp/Dog_deploy/build/roboparty_imu/rosidl_adapter__arguments__roboparty_imu.json
+[0.586s]   --output-dir
+[0.586s]   /home/rp/Dog_deploy/build/roboparty_imu/rosidl_adapter/roboparty_imu
+[0.586s]   --output-file
+[0.586s]   /home/rp/Dog_deploy/build/roboparty_imu/rosidl_adapter/roboparty_imu.idls)
+[0.586s]   returned error code 1:
+[0.586s] 
+[0.586s]   Traceback (most recent call last):
+[0.586s] 
+[0.586s]     File "<frozen runpy>", line 203, in _run_module_as_main
+[0.586s]     File "<frozen runpy>", line 88, in _run_code
+[0.586s]     File "/opt/ros/jazzy/lib/python3.12/site-packages/rosidl_adapter/__main__.py", line 19, in <module>
+[0.586s]       sys.exit(main())
+[0.586s]                ~~~~^^
+[0.586s]     File "/opt/ros/jazzy/lib/python3.12/site-packages/rosidl_adapter/main.py", line 53, in main
+[0.586s]       abs_idl_file = convert_to_idl(
+[0.586s]           pathlib.Path(basepath), args.package_name,
+[0.586s]           pathlib.Path(relative_path), output_dir)
+[0.586s]     File "/opt/ros/jazzy/lib/python3.12/site-packages/rosidl_adapter/__init__.py", line 18, in convert_to_idl
+[0.586s]       from rosidl_adapter.msg import convert_msg_to_idl
+[0.586s]     File "/opt/ros/jazzy/lib/python3.12/site-packages/rosidl_adapter/msg/__init__.py", line 16, in <module>
+[0.586s]       from rosidl_adapter.resource import expand_template
+[0.587s]     File "/opt/ros/jazzy/lib/python3.12/site-packages/rosidl_adapter/resource/__init__.py", line 19, in <module>
+[0.587s]       import em
+[0.587s] 
+[0.587s]   ModuleNotFoundError: No module named 'em'
+[0.587s] 
+[0.587s] Call Stack (most recent call first):
+[0.587s]   /opt/ros/jazzy/share/rosidl_cmake/cmake/rosidl_generate_interfaces.cmake:132 (rosidl_adapt_interfaces)
+[0.587s]   CMakeLists.txt:10 (rosidl_generate_interfaces)
+[0.587s] 
+[0.587s] [0m
+[0.587s] -- Configuring incomplete, errors occurred!
+[0.593s] Invoked command in '/home/rp/Dog_deploy/build/roboparty_imu' returned '1': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy CONDA_PROMPT_MODIFIER=(base) DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/rp/Dog_deploy/src/imu/imu_ros2 -DCMAKE_INSTALL_PREFIX=/home/rp/Dog_deploy/install/roboparty_imu

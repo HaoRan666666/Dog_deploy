@@ -1,0 +1,81 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+-- Found rclcpp: 16.0.12 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+-- Found FastRTPS: /opt/ros/humble/include  
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+-- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+-- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+-- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python3
+-- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+-- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+-- Found PythonExtra: .so  
+CMake Deprecation Warning at /opt/ros/humble/share/rosidl_cmake/cmake/rosidl_target_interfaces.cmake:32 (message):
+  Use rosidl_get_typesupport_target() and target_link_libraries() instead of
+  rosidl_target_interfaces()
+Call Stack (most recent call first):
+  CMakeLists.txt:32 (rosidl_target_interfaces)
+
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/xhr/Dog_VMC/Module/imu/build/imu_ros2
+[  2%] Generating C code for ROS interfaces
+[  5%] Building CXX object CMakeFiles/imu_reader_lib.dir/src/crc16.cpp.o
+[  7%] Building CXX object CMakeFiles/imu_reader_lib.dir/src/imu_reader.cpp.o
+[ 10%] Building CXX object CMakeFiles/imu_reader_lib.dir/src/imu_parser.cpp.o
+[ 13%] Building CXX object CMakeFiles/imu_reader_lib.dir/src/serial_port.cpp.o
+[ 15%] Generating C++ code for ROS interfaces
+In file included from /home/xhr/Dog_VMC/Module/imu/imu_ros2/src/imu_reader.cpp:1:
+/home/xhr/Dog_VMC/Module/imu/imu_ros2/include/imu_ros2/imu_reader.h:3:10: fatal error: imu_ros2/imu_parser.h: 没有那个文件或目录
+    3 | #include "imu_ros2/imu_parser.h"
+      |          ^~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+[ 15%] Built target ament_cmake_python_copy_imu_ros2
+gmake[2]: *** [CMakeFiles/imu_reader_lib.dir/build.make:104：CMakeFiles/imu_reader_lib.dir/src/imu_reader.cpp.o] 错误 1
+gmake[2]: *** 正在等待未完成的任务....
+gmake[1]: *** [CMakeFiles/Makefile2:594：CMakeFiles/imu_reader_lib.dir/all] 错误 2
+gmake[1]: *** 正在等待未完成的任务....
+running egg_info
+creating imu_ros2.egg-info
+writing imu_ros2.egg-info/PKG-INFO
+writing dependency_links to imu_ros2.egg-info/dependency_links.txt
+writing top-level names to imu_ros2.egg-info/top_level.txt
+writing manifest file 'imu_ros2.egg-info/SOURCES.txt'
+reading manifest file 'imu_ros2.egg-info/SOURCES.txt'
+writing manifest file 'imu_ros2.egg-info/SOURCES.txt'
+[ 15%] Built target imu_ros2__cpp
+[ 18%] Building C object CMakeFiles/imu_ros2__rosidl_generator_c.dir/rosidl_generator_c/imu_ros2/msg/detail/imu_data__functions.c.o
+[ 18%] Built target ament_cmake_python_build_imu_ros2_egg
+[ 21%] Linking C shared library libimu_ros2__rosidl_generator_c.so
+[ 21%] Built target imu_ros2__rosidl_generator_c
+gmake: *** [Makefile:146：all] 错误 2

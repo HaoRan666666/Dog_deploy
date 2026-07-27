@@ -1,0 +1,2 @@
+/usr/bin/ar qc libimu_reader_lib.a CMakeFiles/imu_reader_lib.dir/src/crc16.cpp.o CMakeFiles/imu_reader_lib.dir/src/imu_parser.cpp.o CMakeFiles/imu_reader_lib.dir/src/imu_reader.cpp.o CMakeFiles/imu_reader_lib.dir/src/serial_port.cpp.o
+/usr/bin/ranlib libimu_reader_lib.a

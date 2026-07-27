@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmotors_canfd.a CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o
+/usr/bin/ranlib libmotors_canfd.a

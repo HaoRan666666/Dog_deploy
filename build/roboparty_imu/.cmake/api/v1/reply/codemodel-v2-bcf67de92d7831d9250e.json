@@ -1,0 +1,294 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-ec9c8c6daf805409d09d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						18,
+						19,
+						20,
+						21,
+						22
+					]
+				},
+				{
+					"build" : "roboparty_imu__py",
+					"jsonFile" : "directory-roboparty_imu__py-8a132c480d7a718dbda5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/rp/Dog_deploy/build/roboparty_imu/roboparty_imu__py",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "roboparty_imu__rs",
+					"jsonFile" : "directory-roboparty_imu__rs-8222b8e7c99b6cf69542.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/rp/Dog_deploy/build/roboparty_imu/roboparty_imu__rs",
+					"targetIndexes" : 
+					[
+						17
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
+					"name" : "roboparty_imu",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_build_roboparty_imu_egg::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_build_roboparty_imu_egg-c90acd15810c37d4dff1.json",
+					"name" : "ament_cmake_python_build_roboparty_imu_egg",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_copy_roboparty_imu::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_copy_roboparty_imu-0ac7971d2d2f364a20a0.json",
+					"name" : "ament_cmake_python_copy_roboparty_imu",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "imu_driver::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-imu_driver-8f7cc584a90523db8970.json",
+					"name" : "imu_driver",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "imu_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-imu_node-60bf555241a5f7c343ff.json",
+					"name" : "imu_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "imu_reader_lib::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-imu_reader_lib-8c365cc00f6c8853f5cd.json",
+					"name" : "imu_reader_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu-0afe8b2e11239b5fa680.json",
+					"name" : "roboparty_imu",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu__cpp-11bb541aeab37843fe9a.json",
+					"name" : "roboparty_imu__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "roboparty_imu__py::@d10fbd5f45a54e82640f",
+					"jsonFile" : "target-roboparty_imu__py-3ab1860f06f03c56d7da.json",
+					"name" : "roboparty_imu__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu__rosidl_generator_c-944b09469dd802634516.json",
+					"name" : "roboparty_imu__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu__rosidl_generator_py::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu__rosidl_generator_py-68d9c42f3302c24b35a0.json",
+					"name" : "roboparty_imu__rosidl_generator_py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu__rosidl_generator_type_description::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu__rosidl_generator_type_description-1aa1b318c101dd2c58de.json",
+					"name" : "roboparty_imu__rosidl_generator_type_description",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu__rosidl_typesupport_c-ea6ffb72813388256752.json",
+					"name" : "roboparty_imu__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu__rosidl_typesupport_cpp-c513ae341e850bcc20c5.json",
+					"name" : "roboparty_imu__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu__rosidl_typesupport_fastrtps_c-62d24dfe3461c9d3df7c.json",
+					"name" : "roboparty_imu__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu__rosidl_typesupport_fastrtps_cpp-1a849e419a36faf1bc9a.json",
+					"name" : "roboparty_imu__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu__rosidl_typesupport_introspection_c-bc186d4d72099f46c445.json",
+					"name" : "roboparty_imu__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu__rosidl_typesupport_introspection_cpp-2fd7af930f699ce0707b.json",
+					"name" : "roboparty_imu__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "roboparty_imu__rs::@0e12b6cfa15620749628",
+					"jsonFile" : "target-roboparty_imu__rs-67ca44a797978036c55e.json",
+					"name" : "roboparty_imu__rs",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu_s__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu_s__rosidl_typesupport_c-c9d412d92d05b090ba4b.json",
+					"name" : "roboparty_imu_s__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu_s__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu_s__rosidl_typesupport_fastrtps_c-8dbdc41d50cb40cd6397.json",
+					"name" : "roboparty_imu_s__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu_s__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu_s__rosidl_typesupport_introspection_c-5eeed315eeb9b40b049b.json",
+					"name" : "roboparty_imu_s__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "roboparty_imu_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-roboparty_imu_uninstall-9706ccedf188d6978437.json",
+					"name" : "roboparty_imu_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-1bd539a716b33cb082e6.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/rp/Dog_deploy/build/roboparty_imu",
+		"source" : "/home/rp/Dog_deploy/src/imu/imu_ros2"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

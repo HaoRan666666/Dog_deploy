@@ -1,0 +1,6 @@
+{
+  "package_name": "imu_ros2",
+  "non_idl_tuples": [
+    "/home/xhr/Dog_VMC/Module/imu/imu_ros2:msg/IMUData.msg"
+  ]
+}

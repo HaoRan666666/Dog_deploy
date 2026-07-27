@@ -1,0 +1,2 @@
+[ 15%] [32mBuilding CXX object src/protocol/can/CMakeFiles/motors_can.dir/socket_can.cpp.o[0m
+[ 15%] [32mBuilding CXX object src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o[0m

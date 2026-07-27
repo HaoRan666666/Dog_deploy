@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "roboparty_imu__py",
+		"source" : "/home/rp/Dog_deploy/build/roboparty_imu/roboparty_imu__py"
+	}
+}
