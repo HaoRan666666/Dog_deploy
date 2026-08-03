@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/src/motors/include",
+                "${workspaceFolder}/src/motors/src",
+                "${workspaceFolder}/src/imu/imu_ros2/include/imu_ros2",
+                "${workspaceFolder}/src/inference/include",
+                "${workspaceFolder}/src/inference/src",
+                "${workspaceFolder}/build/roboparty_imu/**",
+                "/usr/include/eigen3",
+                "/usr/include/spdlog",
+                "/usr/include",
+                "/opt/ros/jazzy/include/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

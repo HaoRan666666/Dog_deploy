@@ -20,7 +20,7 @@ inference_node:
         obs_layouts:
           - "ang_vel:3, gravity_b:3, cmd_vel:3, dof_pos:16, dof_vel:16, last_action:16"
         frame_stacks: [10]
-        obs_stack_orders: ["frame_major"]
+        obs_stack_orders: ["obs_major"]
         act_alpha: 1.0
         joint_num: 16
         decimation: 5

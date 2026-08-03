@@ -18,7 +18,6 @@
 #include <queue>
 #include <sstream>
 #include <yaml-cpp/yaml.h>
-#include "utils/close_chain_mapping.hpp"
 #include "utils/thread_pool.hpp"
 #include "motor_driver.hpp"
 #include "imu_driver.hpp"
@@ -318,7 +317,6 @@ class RobotInterface {
     // 硬件驱动实例
     // =========================================================================
     std::shared_ptr<IMUDriver> imu_;                       // IMU 驱动 (具体型号由工厂创建)
-    std::shared_ptr<Decouple> ankle_decouple_;             // 踝关节闭链解耦器 (nullptr = 不解耦)
 
     // =========================================================================
     // IMU 外参变换矩阵
