@@ -19,7 +19,7 @@ set(roboparty_motors_LIB_DIR     "${_INSTALL_PREFIX}/lib")
 # Find dependencies
 include(CMakeFindDependencyMacro)
 find_dependency(fmt)
-find_dependency(spdlog)
+# spdlog replaced by built-in logger.hpp (backed by fmt)
 find_dependency(Eigen3)
 
 # Helper function to find and add libraries
@@ -52,7 +52,6 @@ target_include_directories(roboparty_motors::roboparty_motors INTERFACE ${robopa
 target_link_libraries(roboparty_motors::roboparty_motors INTERFACE
     ${roboparty_motors_LIBRARIES}
     fmt::fmt
-    spdlog::spdlog
     Eigen3::Eigen
 )
 

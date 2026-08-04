@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "logger.hpp"
+
 /// EtherCAT frame abstraction (backend-specific layout).
 /// Concrete backends (SOEM, IgH, etc.) map this to their native representation.
 struct ethercat_frame {
@@ -59,7 +61,7 @@ public:
         const std::string& interface,
         const std::string& backend = "soem");
 
-    static void init_logger(std::shared_ptr<spdlog::logger> logger);
+    static void init_logger(std::shared_ptr<Logger> logger);
 
 protected:
     MotorsEtherCAT() = default;

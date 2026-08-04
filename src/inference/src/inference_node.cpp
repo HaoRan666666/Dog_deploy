@@ -285,7 +285,7 @@ void InferenceNode::reset_runtime_state() {
         }
     }
     // 重置所有策略的观测历史和运动帧
-    for (PolicyRuntime& policy : policies_) 
+    for (PolicyRuntime& policy : policies_) {
         reset_policy_runtime(policy);
     }
 }
@@ -358,15 +358,6 @@ void InferenceNode::initialize_runtime_state() {
     }
 }
 
-// ============================================================================
-// has_motion_policy — 是否有运动策略 (含 NPZ 轨迹文件)
-//
-// motion_policy_indices_ 在 load_config() 中填充，
-// 只要有任一策略配置了 motion_path 就非空
-// ============================================================================
-bool InferenceNode::has_motion_policy() const {
-    return !motion_policy_indices_.empty();
-}
 
 // ============================================================================
 // supports_interrupt — 是否支持中断模式
@@ -400,7 +391,6 @@ void InferenceNode::reset_policy_runtime(PolicyRuntime& policy) {
         std::fill(policy.ctx->input_buffer.begin(), policy.ctx->input_buffer.end(), 0.0f);
         std::fill(policy.ctx->output_buffer.begin(), policy.ctx->output_buffer.end(), 0.0f);
     }
-    policy.motion_frame = 0;
     policy.is_first_frame = true;   // 下次推理时触发帧栈初始化
 }
 
@@ -560,12 +550,7 @@ void InferenceNode::inference() {
                                      policy.ctx->input_buffer.begin() + policy.frame_stack * policy.obs_num);
             }
 
-            // ── 步骤 6: (可选) 运动帧推进 ─────────────────────────────
-            if (policy.motion_loader) {
-                step_motion_frame();
-            }
-
-            // 首帧标志清除 (下次推理不再初始化帧栈)
+            // ── 首帧标志清除 (下次推理不再初始化帧栈)
             policy.is_first_frame = false;
 
             // ── 步骤 7: ONNX 推理 ─────────────────────────────────────
@@ -680,13 +665,9 @@ int main(int argc, char** argv) {
         RCLCPP_INFO(node->get_logger(), "Press 'B' to start/pause inference");
         RCLCPP_INFO(node->get_logger(),
                     "Press 'Y' to switch between Gamepad Control / cmd_vel Control");
-        if (node->supports_interrupt() || node->has_motion_policy()) {
+        if (node->supports_interrupt()) {
             RCLCPP_INFO(node->get_logger(),
-                        "Press 'LB' to switch policy mode (available in beyondmimic / interrupt modes)");
-        }
-        if (node->has_motion_policy()) {
-            RCLCPP_INFO(node->get_logger(),
-                        "Press 'RB' to switch motion sequence (available in beyondmimic mode)");
+                        "Press 'LB' to switch interrupt mode");
         }
         RCLCPP_INFO(node->get_logger(), "Right Stick: Control forward, backward, left and right movement");
         RCLCPP_INFO(node->get_logger(), "LT/RT: Control turning (left / right rotation)");

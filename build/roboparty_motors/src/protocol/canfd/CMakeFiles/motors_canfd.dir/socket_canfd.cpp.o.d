@@ -185,15 +185,9 @@ src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o: \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/13/bits/charconv.h \
- /usr/include/c++/13/bits/basic_string.tcc /usr/include/spdlog/spdlog.h \
- /usr/include/spdlog/common.h /usr/include/spdlog/tweakme.h \
- /usr/include/spdlog/details/null_mutex.h /usr/include/c++/13/atomic \
- /usr/include/c++/13/utility /usr/include/c++/13/bits/stl_relops.h \
- /usr/include/c++/13/chrono /usr/include/c++/13/bits/chrono.h \
- /usr/include/c++/13/ratio /usr/include/c++/13/cstdint \
- /usr/include/c++/13/limits /usr/include/c++/13/ctime \
- /usr/include/c++/13/bits/parse_numbers.h /usr/include/spdlog/fmt/fmt.h \
- /home/rp/miniconda3/include/fmt/core.h \
+ /usr/include/c++/13/bits/basic_string.tcc \
+ /home/rp/Dog_deploy/src/motors/include/logger.hpp \
+ /home/rp/miniconda3/include/fmt/color.h \
  /home/rp/miniconda3/include/fmt/format.h \
  /home/rp/miniconda3/include/fmt/base.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
@@ -217,7 +211,8 @@ src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
- /usr/include/c++/13/bits/specfun.h /usr/include/c++/13/tr1/gamma.tcc \
+ /usr/include/c++/13/bits/specfun.h /usr/include/c++/13/limits \
+ /usr/include/c++/13/tr1/gamma.tcc \
  /usr/include/c++/13/tr1/special_function_util.h \
  /usr/include/c++/13/tr1/bessel_function.tcc \
  /usr/include/c++/13/tr1/beta_function.tcc \
@@ -228,29 +223,17 @@ src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o: \
  /usr/include/c++/13/tr1/modified_bessel_func.tcc \
  /usr/include/c++/13/tr1/poly_hermite.tcc \
  /usr/include/c++/13/tr1/poly_laguerre.tcc \
- /usr/include/c++/13/tr1/riemann_zeta.tcc /usr/include/c++/13/cstring \
- /usr/include/c++/13/stdexcept /usr/include/c++/13/system_error \
+ /usr/include/c++/13/tr1/riemann_zeta.tcc /usr/include/c++/13/cstdint \
+ /usr/include/c++/13/cstring /usr/include/c++/13/stdexcept \
+ /usr/include/c++/13/system_error \
  /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
- /home/rp/miniconda3/include/fmt/format.h \
- /usr/include/spdlog/details/registry.h \
- /usr/include/spdlog/details/periodic_worker.h \
- /usr/include/c++/13/condition_variable \
+ /home/rp/miniconda3/include/fmt/core.h /usr/include/c++/13/atomic \
+ /usr/include/c++/13/mutex /usr/include/c++/13/bits/chrono.h \
+ /usr/include/c++/13/ratio /usr/include/c++/13/ctime \
+ /usr/include/c++/13/bits/parse_numbers.h \
  /usr/include/c++/13/bits/std_mutex.h \
- /usr/include/c++/13/bits/unique_lock.h /usr/include/c++/13/mutex \
- /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
- /usr/include/c++/13/bits/this_thread_sleep.h \
- /usr/include/spdlog/logger.h /usr/include/spdlog/details/log_msg.h \
- /usr/include/spdlog/details/backtracer.h \
- /usr/include/spdlog/details/log_msg_buffer.h \
- /usr/include/spdlog/details/circular_q.h /usr/include/c++/13/cassert \
- /usr/include/assert.h /usr/include/spdlog/version.h \
- /usr/include/spdlog/details/synchronous_factory.h \
- /usr/include/spdlog/sinks/stdout_color_sinks.h \
- /usr/include/spdlog/sinks/ansicolor_sink.h \
- /usr/include/spdlog/details/console_globals.h \
- /usr/include/spdlog/sinks/sink.h /usr/include/spdlog/formatter.h \
- /usr/include/linux/can/raw.h /usr/include/net/if.h \
- /usr/include/x86_64-linux-gnu/sys/socket.h \
+ /usr/include/c++/13/bits/unique_lock.h /usr/include/linux/can/raw.h \
+ /usr/include/net/if.h /usr/include/x86_64-linux-gnu/sys/socket.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
  /usr/include/x86_64-linux-gnu/bits/socket.h \
  /usr/include/x86_64-linux-gnu/bits/socket_type.h \
@@ -284,8 +267,8 @@ src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl2.h \
  /usr/include/boost/lockfree/queue.hpp /usr/include/boost/assert.hpp \
- /usr/include/boost/static_assert.hpp /usr/include/boost/config.hpp \
- /usr/include/boost/config/user.hpp \
+ /usr/include/assert.h /usr/include/boost/static_assert.hpp \
+ /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
  /usr/include/boost/config/detail/select_compiler_config.hpp \
  /usr/include/boost/config/compiler/gcc.hpp \
  /usr/include/boost/config/detail/select_stdlib_config.hpp \
@@ -301,7 +284,8 @@ src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o: \
  /usr/include/boost/config/workaround.hpp \
  /usr/include/boost/core/allocator_access.hpp \
  /usr/include/boost/core/pointer_traits.hpp \
- /usr/include/boost/core/addressof.hpp \
+ /usr/include/boost/core/addressof.hpp /usr/include/c++/13/utility \
+ /usr/include/c++/13/bits/stl_relops.h \
  /usr/include/boost/type_traits/has_trivial_assign.hpp \
  /usr/include/boost/type_traits/detail/config.hpp \
  /usr/include/boost/version.hpp \
@@ -550,7 +534,7 @@ src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o: \
  /usr/include/boost/predef/library.h \
  /usr/include/boost/predef/library/c.h \
  /usr/include/boost/predef/library/c/_prefix.h \
- /usr/include/boost/predef/detail/_cassert.h \
+ /usr/include/boost/predef/detail/_cassert.h /usr/include/c++/13/cassert \
  /usr/include/boost/predef/library/c/cloudabi.h \
  /usr/include/boost/predef/library/c/gnu.h \
  /usr/include/boost/predef/library/c/uc.h \
@@ -800,4 +784,7 @@ src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o: \
  /usr/include/boost/parameter/aux_/pack/tag_template_keyword_arg.hpp \
  /usr/include/boost/lockfree/detail/tagged_ptr.hpp \
  /usr/include/boost/lockfree/detail/tagged_ptr_ptrcompression.hpp \
- /usr/include/boost/lockfree/lockfree_forward.hpp
+ /usr/include/boost/lockfree/lockfree_forward.hpp \
+ /usr/include/c++/13/condition_variable /usr/include/c++/13/thread \
+ /usr/include/c++/13/bits/std_thread.h \
+ /usr/include/c++/13/bits/this_thread_sleep.h

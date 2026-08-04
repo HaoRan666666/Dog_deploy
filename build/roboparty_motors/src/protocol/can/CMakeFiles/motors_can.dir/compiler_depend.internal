@@ -3,9 +3,11 @@
 
 src/protocol/can/CMakeFiles/motors_can.dir/socket_can.cpp.o
  /home/rp/Dog_deploy/src/motors/src/protocol/can/socket_can.cpp
+ /home/rp/Dog_deploy/src/motors/include/logger.hpp
  /home/rp/Dog_deploy/src/motors/src/protocol/can_iso.hpp
  /home/rp/Dog_deploy/src/motors/src/protocol/can/socket_can.hpp
  /home/rp/miniconda3/include/fmt/base.h
+ /home/rp/miniconda3/include/fmt/color.h
  /home/rp/miniconda3/include/fmt/core.h
  /home/rp/miniconda3/include/fmt/format.h
  /usr/include/alloca.h
@@ -652,7 +654,6 @@ src/protocol/can/CMakeFiles/motors_can.dir/socket_can.cpp.o
  /usr/include/c++/13/cassert
  /usr/include/c++/13/cctype
  /usr/include/c++/13/cerrno
- /usr/include/c++/13/chrono
  /usr/include/c++/13/clocale
  /usr/include/c++/13/cmath
  /usr/include/c++/13/compare
@@ -736,25 +737,6 @@ src/protocol/can/CMakeFiles/motors_can.dir/socket_can.cpp.o
  /usr/include/net/if.h
  /usr/include/pthread.h
  /usr/include/sched.h
- /usr/include/spdlog/common.h
- /usr/include/spdlog/details/backtracer.h
- /usr/include/spdlog/details/circular_q.h
- /usr/include/spdlog/details/console_globals.h
- /usr/include/spdlog/details/log_msg.h
- /usr/include/spdlog/details/log_msg_buffer.h
- /usr/include/spdlog/details/null_mutex.h
- /usr/include/spdlog/details/periodic_worker.h
- /usr/include/spdlog/details/registry.h
- /usr/include/spdlog/details/synchronous_factory.h
- /usr/include/spdlog/fmt/fmt.h
- /usr/include/spdlog/formatter.h
- /usr/include/spdlog/logger.h
- /usr/include/spdlog/sinks/ansicolor_sink.h
- /usr/include/spdlog/sinks/sink.h
- /usr/include/spdlog/sinks/stdout_color_sinks.h
- /usr/include/spdlog/spdlog.h
- /usr/include/spdlog/tweakme.h
- /usr/include/spdlog/version.h
  /usr/include/stdc-predef.h
  /usr/include/stdint.h
  /usr/include/stdio.h

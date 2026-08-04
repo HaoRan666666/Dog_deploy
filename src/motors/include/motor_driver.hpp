@@ -1,6 +1,5 @@
 #pragma once
-// #include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/spdlog.h>
+#include "logger.hpp"
 #include <stdint.h>
 #include <string.h>
 #include <iostream>
@@ -297,7 +296,7 @@ class MotorDriver {
     virtual float get_motor_temperature() { return motor_temperature_; }
 
    protected:
-    std::shared_ptr<spdlog::logger> logger_;
+    std::shared_ptr<Logger> logger_;
     uint16_t motor_id_;
 
     uint8_t motor_control_mode_;  // 0:none 1:pos 2:spd 3:mit

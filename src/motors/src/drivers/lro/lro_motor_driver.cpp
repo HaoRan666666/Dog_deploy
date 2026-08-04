@@ -46,7 +46,7 @@ LroMotorDriver::~LroMotorDriver() {
             }
         }
     } else if (comm_type_ == CommType::ETHERCAT) {
-        spdlog::error("LRO driver does not support EtherCAT interface yet");
+        Logger::get_or_create("motors")->error("LRO driver does not support EtherCAT interface yet");
     }
 }
 

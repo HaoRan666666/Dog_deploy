@@ -1,8 +1,0 @@
-/bin/sh: 1: ccache: not found
-/bin/sh: 1: ccache: not found
-gmake[2]: *** [src/protocol/can/CMakeFiles/motors_can.dir/build.make:76：src/protocol/can/CMakeFiles/motors_can.dir/socket_can.cpp.o] 错误 127
-gmake[2]: *** [src/protocol/canfd/CMakeFiles/motors_canfd.dir/build.make:76：src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o] 错误 127
-gmake[1]: *** [CMakeFiles/Makefile2:393：src/protocol/canfd/CMakeFiles/motors_canfd.dir/all] 错误 2
-gmake[1]: *** 正在等待未完成的任务....
-gmake[1]: *** [CMakeFiles/Makefile2:367：src/protocol/can/CMakeFiles/motors_can.dir/all] 错误 2
-gmake: *** [Makefile:146：all] 错误 2

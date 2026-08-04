@@ -1,3 +1,6 @@
+source;share/roboparty_motors/hook/cmake_prefix_path.ps1
+source;share/roboparty_motors/hook/cmake_prefix_path.dsv
+source;share/roboparty_motors/hook/cmake_prefix_path.sh
 source;share/roboparty_motors/local_setup.bash
 source;share/roboparty_motors/local_setup.dsv
 source;share/roboparty_motors/local_setup.ps1

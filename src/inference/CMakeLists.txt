@@ -25,7 +25,7 @@ find_package(Eigen3 REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(fmt REQUIRED)
 find_package(roboparty_motors REQUIRED)
-find_package(roboparty_imu REQUIRED)
+find_package(damiao_imu REQUIRED)
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 find_package(pybind11 REQUIRED)
 
@@ -52,7 +52,7 @@ target_include_directories(robot
 
 target_link_libraries(robot PUBLIC ${PUBLIC_DEPENDENCIES} utils cnpy
   roboparty_motors::roboparty_motors
-  roboparty_imu::roboparty_imu
+  damiao_imu::damiao_imu_lib
 )
 
 pybind11_add_module(robot_py src/pybind_module.cpp)

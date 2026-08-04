@@ -1,6 +1,0 @@
-{
-  "package_name": "roboparty_imu",
-  "non_idl_tuples": [
-    "/home/rp/Dog_deploy/src/imu/imu_ros2:msg/IMUData.msg"
-  ]
-}

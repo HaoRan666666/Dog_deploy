@@ -1,2 +1,0 @@
-Invoking command in '/home/rp/Dog_deploy/build/roboparty_motors': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy CONDA_PROMPT_MODIFIER=(env_isaaclab) DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/rp/Dog_deploy/build/roboparty_motors -- -j14 -l14
-Invoked command in '/home/rp/Dog_deploy/build/roboparty_motors' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy CONDA_PROMPT_MODIFIER=(env_isaaclab) DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/rp/Dog_deploy/build/roboparty_motors -- -j14 -l14

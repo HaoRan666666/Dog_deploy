@@ -1,10 +1,7 @@
 #pragma once
 
 #include <math.h>
-#include <spdlog/logger.h>
-#include <spdlog/sinks/rotating_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/spdlog.h>
+#include "logger.hpp"
 
 #include <thread>
 #include <algorithm>
@@ -83,19 +80,7 @@ inline double l2norm(const T& a, const T& b) {
     return sqrt(sum);
 }
 
-inline std::shared_ptr<spdlog::logger> setup_logger(std::vector<spdlog::sink_ptr> sinks,
-                                                    const std::string& logger_name = "motors") {
-    auto logger = spdlog::get(logger_name);
-    if (!logger) {
-        if (sinks.size() > 0) {
-            logger = std::make_shared<spdlog::logger>(logger_name, std::begin(sinks), std::end(sinks));
-            spdlog::register_logger(logger);
-        } else {
-            logger = spdlog::stdout_color_mt(logger_name);
-        }
-    }
-    return logger;
-}
+// setup_logger is now defined in logger.hpp
 
 class Timer {
    private:

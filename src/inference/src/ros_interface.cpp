@@ -96,7 +96,6 @@ void InferenceNode::load_config() {
 
     // ── 清空旧策略列表，准备重建 ─────────────────────────────────────────
     policies_.clear();
-    motion_policy_indices_.clear();
     perception_obs_num_ = 0;
     const size_t policy_count = model_names.size();
     if (policy_count == 0) {
@@ -151,9 +150,7 @@ void InferenceNode::load_config() {
         PolicyRuntime policy;
         policy.name = policy_model_name;
         policy.model_path = resolve_asset_path(model_dir, policy_model_name);
-        if (!policy_motion_name.empty()) {
-            policy.motion_path = resolve_asset_path(motion_dir, policy_motion_name);
-        }
+        // Motion policy support removed (not used by wheel_quad)
 
         // 解析主观测布局: "ang_vel:3, gravity_b:3, ..." → vector<ObsSourceSpec>
         policy.obs_layout = parse_obs_layout(obs_layouts[i], "obs_layouts[" + std::to_string(i) + "]");
@@ -182,10 +179,6 @@ void InferenceNode::load_config() {
         // 将 YAML 字符串 "frame_major" / "obs_major" 转为枚举值
         policy.stack_order = parse_obs_stack_order(policy_obs_stack_order_name);
 
-        // 记录哪些策略含运动文件 (motion policy)，用于后续手柄切换
-        if (!policy.motion_path.empty()) {
-            motion_policy_indices_.push_back(static_cast<int>(policies_.size()));
-        }
         policies_.push_back(std::move(policy));
     }
 
@@ -198,17 +191,10 @@ void InferenceNode::load_config() {
     for (size_t i = 0; i < policies_.size(); i++) {
         RCLCPP_INFO(this->get_logger(), "policy %zu: %s", i, policies_[i].name.c_str());
         RCLCPP_INFO(this->get_logger(), "policy_model_path %zu: %s", i, policies_[i].model_path.c_str());
-        if (!policies_[i].motion_path.empty()) {
-            RCLCPP_INFO(this->get_logger(), "policy_motion_path %zu: %s", i, policies_[i].motion_path.c_str());
-        }
     }
     RCLCPP_INFO(this->get_logger(), "act_alpha: %f", act_alpha_);
     RCLCPP_INFO(this->get_logger(), "intra_threads: %d", intra_threads_);
     RCLCPP_INFO(this->get_logger(), "supports_interrupt: %s", has_obs_source("interrupt") ? "true" : "false");
-    RCLCPP_INFO(this->get_logger(), "has_motion_policy: %s", motion_policy_indices_.empty() ? "false" : "true");
-    RCLCPP_INFO(this->get_logger(), "perception_obs_num: %d", perception_obs_num_);
-    print_vector<std::string>("extra_obs_layouts", extra_obs_layouts);
-    RCLCPP_INFO(this->get_logger(), "perception_obs_topic: %s", perception_obs_topic_.c_str());
     RCLCPP_INFO(this->get_logger(), "joint_num: %d", joint_num_);
     RCLCPP_INFO(this->get_logger(), "decimation: %d", decimation_);
     RCLCPP_INFO(this->get_logger(), "dt: %f", dt_);
@@ -304,11 +290,8 @@ void InferenceNode::subs_joy_callback(const std::shared_ptr<sensor_msgs::msg::Jo
         RCLCPP_INFO(this->get_logger(), "Controlled by %s", is_joy_control_.load() ? "joy" : "/cmd_vel");
     }
 
-    // ── 按钮 LB (buttons[4]): 切换中断模式 或 运动策略 ──────────────────
-    // supports_interrupt 优先: 在普通策略和中断策略间切换
-    // 否则有 motion_policy: 在默认策略和运动策略间切换
-    // 切换时先暂停推理，切换完成后再恢复，保证状态一致性
-    if (supports_interrupt() || has_motion_policy()) {
+    // ── 按钮 LB (buttons[4]): 切换中断模式 ─────────────────────────
+    if (supports_interrupt()) {
         if (msg->buttons[4] == 1 && msg->buttons[4] != last_button4_) {
             const auto switch_while_paused = [this](auto&& switch_mode) {
                 std::unique_lock<std::mutex> switch_lock(lb_switch_mutex_);
@@ -319,7 +302,6 @@ void InferenceNode::subs_joy_callback(const std::shared_ptr<sensor_msgs::msg::Jo
                 try {
                     switch_mode();
                 } catch (...) {
-                    // 异常时恢复推理状态后重新抛出
                     if (restore_running) {
                         is_running_.store(true);
                         RCLCPP_INFO(this->get_logger(), "Inference started");
@@ -331,48 +313,17 @@ void InferenceNode::subs_joy_callback(const std::shared_ptr<sensor_msgs::msg::Jo
                     RCLCPP_INFO(this->get_logger(), "Inference started");
                 }
             };
-            if (supports_interrupt()) {
-                switch_while_paused([this]() {
-                    std::unique_lock<std::mutex> lock(mode_mutex_);
-                    is_interrupt_.store(!is_interrupt_.load());
-                    RCLCPP_INFO(this->get_logger(), "Interrupt mode %s",
-                                is_interrupt_.load() ? "enabled" : "disabled");
-                });
-            } else if (has_motion_policy()) {
-                switch_while_paused([this]() {
-                    std::string policy_name;
-                    std::unique_lock<std::mutex> lock(mode_mutex_);
-                    is_motion_policy_.store(!is_motion_policy_.load());
-                    // 切换到运动策略列表中的当前选中策略，或回到索引 0 的默认策略
-                    active_policy_idx_ = is_motion_policy_.load()
-                                             ? motion_policy_indices_[current_motion_policy_idx_]
-                                             : 0;
-                    reset_policy_runtime(active_policy());    // 清空新策略的观测历史
-                    policy_name = active_policy().name;
-                    RCLCPP_INFO(this->get_logger(), "Policy enabled: %s", policy_name.c_str());
-                });
-            }
+            switch_while_paused([this]() {
+                std::unique_lock<std::mutex> lock(mode_mutex_);
+                is_interrupt_.store(!is_interrupt_.load());
+                RCLCPP_INFO(this->get_logger(), "Interrupt mode %s",
+                            is_interrupt_.load() ? "enabled" : "disabled");
+            });
         }
         last_button4_ = msg->buttons[4];
     }
 
-    // ── 按钮 RB (buttons[5]): 轮转选择运动策略 ──────────────────────────
-    // 仅在非运动模式时生效 (避免运动策略运行时切换)
-    if (has_motion_policy()) {
-        if (msg->buttons[5] == 1 && msg->buttons[5] != last_button5_) {
-            std::unique_lock<std::mutex> lock(mode_mutex_);
-            if (is_motion_policy_.load()) {
-                RCLCPP_WARN(this->get_logger(),
-                            "Cannot switch motion policy while in motion policy mode");
-            } else {
-                current_motion_policy_idx_ =
-                    (current_motion_policy_idx_ + 1) % motion_policy_indices_.size();
-                RCLCPP_INFO(this->get_logger(), "Selected policy: %s",
-                            policies_[motion_policy_indices_[current_motion_policy_idx_]].name.c_str());
-            }
-        }
-        last_button5_ = msg->buttons[5];
-    }
+    // ── 按钮 RB (buttons[5]): motion policy switching removed ──────
 
     // 保存本轮按钮状态，供下一周期边沿检测
     last_button0_ = msg->buttons[2];

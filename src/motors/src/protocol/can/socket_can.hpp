@@ -11,8 +11,6 @@
 #include <linux/can.h>
 #include <net/if.h>
 #include <pthread.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/spdlog.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <unistd.h>

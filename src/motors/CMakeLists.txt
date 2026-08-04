@@ -15,14 +15,13 @@ set(CMAKE_BUILD_TYPE Release)
 
 find_package(ament_cmake QUIET)
 find_package(Boost COMPONENTS system)
-find_package(spdlog REQUIRED)
 find_package(fmt REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 find_package(pybind11 REQUIRED)
 
 set(PUBLIC_DEPENDENCIES
-    fmt::fmt spdlog::spdlog ${Boost_LIBRARIES} pthread Eigen3::Eigen)
+    fmt::fmt ${Boost_LIBRARIES} pthread Eigen3::Eigen)
 
 add_subdirectory(src)
 

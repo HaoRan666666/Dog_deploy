@@ -19,8 +19,7 @@ imu:
     imu_id: 8
     imu_interface_type: "serial"
     imu_interface: "/dev/ttyUSB0"
-    imu_type: "HIPNUC"
-    baudrate: 921600
+    imu_type: "DAMIAO"
 
 motors:
     # 每条 CAN 总线独立编址, ID 均为 1-4

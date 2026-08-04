@@ -20,7 +20,7 @@
 #include <yaml-cpp/yaml.h>
 #include "utils/thread_pool.hpp"
 #include "motor_driver.hpp"
-#include "imu_driver.hpp"
+#include "damiao_imu/imu_driver.hpp"
 
 // ============================================================================
 // RobotInterface — 机器人硬件抽象层 (Hardware Abstraction Layer)
@@ -360,14 +360,6 @@ class RobotInterface {
     std::unique_ptr<ThreadPool> thread_pool_;
 
     // =========================================================================
-    // 踝关节控制缓存
-    //
-    // cached_ankle_action_:     上一次踝关节的控制目标 (防止突变)
-    // last_ankle_joint_target_: 踝关节目标位置历史
-    // =========================================================================
-    std::vector<float> cached_ankle_action_;
-    std::vector<float> last_ankle_joint_target_;
-
     // =========================================================================
     // 互斥锁
     //
@@ -485,22 +477,5 @@ class RobotInterface {
     // =========================================================================
     void motors_mit_cmd();
 
-    // -------------------------------------------------------------------------
-    // forward_close_chain — 踝关节并联连杆正运动学解耦
-    //
-    // 背景:
-    //   机器人的踝关节 (pitch/roll) 使用并联连杆机构, 两个电机耦合驱动两个自由度。
-    //   电机编码器读数是连杆位置, 不是关节角度。需要数值求解正运动学,
-    //   将两个电机位置换算为两个独立的踝关节角度 (pitch, roll)。
-    //
-    // 算法接口:
-    //   ankle_decouple_->get_forwardQVT(q, vel, tau, left):
-    //     输入: 两个电机的 (位置, 速度, 力矩) 并联值
-    //     输出: 两个关节的 (角度, 角速度, 力矩) 独立值
-    //
-    // 处理两对关节 (左右踝各一对):
-    //   pair=0 → left=true  → 左踝: close_chain_joint_idx_[0,1]
-    //   pair=1 → left=false → 右踝: close_chain_joint_idx_[2,3]
-    // -------------------------------------------------------------------------
-    void forward_close_chain();
+    // forward_close_chain removed — no closed-chain ankle mechanism in use
 };

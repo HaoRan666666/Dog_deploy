@@ -101,16 +101,7 @@ RobotInterface::RobotInterface(const std::string& config_file) {
             }
         }
 
-        // 踝关节控制缓存 (左右踝各 2 个 = 4)
-        cached_ankle_action_.resize(close_chain_joint_idx_.size(), 0.0f);
-        last_ankle_joint_target_.resize(close_chain_joint_idx_.size(), 0.0f);
-
-        // 闭链解耦器 (根据 robot type 创建, 如 type="rpo")
-        if (robot_node["type"]) {
-            ankle_decouple_ = Decouple::create(robot_node["type"].as<std::string>());
-        } else {
-            ankle_decouple_ = nullptr;   // 无 type → 无踝关节闭链, 不解耦
-        }
+        // 闭链解耦功能已移除
     } else {
         throw std::runtime_error("Robot configuration not found in " + config_file);
     }
@@ -174,44 +165,7 @@ void RobotInterface::setup_imu(){
                                   imu_cfg_->baudrate_);
 }
 
-// ============================================================================
-// forward_close_chain — 踝关节并联连杆正运动学解耦
-//
-// RPO 机器人的踝关节 (pitch/roll) 是并联连杆机构 — 两个电机耦合驱动两个自由度。
-// 电机编码器读数是连杆位置, 不是关节角度。需要数值求解正运动学:
-//   get_forwardQVT(电机位置, 电机速度, 电机力矩, is_left)
-//   输入: 耦合电机值 → 输出: 独立关节值
-//
-// 处理两对: pair=0 左踝 (close_chain_joint_idx_[0,1])
-//           pair=1 右踝 (close_chain_joint_idx_[2,3])
-//
-// 原地修改: joint_q_, joint_vel_, joint_tau_ 中踝关节的耦合值
-//           被替换为独立关节值
-// ============================================================================
-void RobotInterface::forward_close_chain() {
-    Eigen::VectorXd q(2), vel(2), tau(2);
-    for (size_t pair = 0; pair < 2; ++pair) {
-        const bool left = (pair == 0);
-        int idx1 = close_chain_joint_idx_[pair * 2];       // 耦合电机 1 的 URDF 索引
-        int idx2 = close_chain_joint_idx_[pair * 2 + 1];   // 耦合电机 2 的 URDF 索引
-
-        // 读取耦合值
-        q << joint_q_[idx1], joint_q_[idx2];
-        vel << joint_vel_[idx1], joint_vel_[idx2];
-        tau << joint_tau_[idx1], joint_tau_[idx2];
-
-        // 数值求解正运动学: 耦合 → 独立
-        ankle_decouple_->get_forwardQVT(q, vel, tau, left);
-
-        // 写回独立值 (覆盖原来的耦合值)
-        joint_q_[idx1]   = q[0];    // 踝 pitch 角
-        joint_q_[idx2]   = q[1];    // 踝 roll 角
-        joint_vel_[idx1] = vel[0];
-        joint_vel_[idx2] = vel[1];
-        joint_tau_[idx1] = tau[0];
-        joint_tau_[idx2] = tau[1];
-    }
-}
+// forward_close_chain removed — no closed-chain ankle mechanism in use
 
 // ============================================================================
 // apply_action — 施加动作到机器人硬件 (最核心接口, control 线程 250Hz)
@@ -243,101 +197,33 @@ void RobotInterface::apply_action(std::vector<float> p,
     if(!is_init_.load()){
         return;
     }
-    const bool use_close_chain_tau = !close_chain_joint_idx_.empty() && ankle_decouple_;
 
     {
         // ② 反向读出: 从电机编码器读取实际状态
-        // joint_mutex_ 保护 joint_q_/joint_vel_/joint_tau_ 的读写互斥
         std::unique_lock<std::mutex> lock(joint_mutex_);
         exec_motors_parallel([this](std::shared_ptr<MotorDriver>& motor, int idx) {
-            // motor2urdf_[idx]: CAN 电机索引 → URDF 关节索引
-            // motor_sign_[idx]: 方向符号 (±1)
             joint_q_[motor2urdf_[idx]] = motor->get_motor_pos() * robot_cfg_->motor_sign_[idx];
             joint_vel_[motor2urdf_[idx]] = motor->get_motor_spd() * robot_cfg_->motor_sign_[idx];
             joint_tau_[motor2urdf_[idx]] = motor->get_motor_current() * robot_cfg_->motor_sign_[idx];
 
-            // 离线检测: 连续丢帧超阈值 → 判定离线
             if (motor->get_response_count() > offline_threshold_) {
                 throw std::runtime_error(
                     "Motor id " + std::to_string(motors_cfg_->motor_id_[idx]) + " offline");
             }
         });
-
-        // ③ + ④ 踝关节闭链解耦 (双向)
-        if (use_close_chain_tau){
-            // 四个辅助 lambda: 取踝关节的 kp/kd/vel_target/tau_ff
-            //   传入参数非空 → 用推理输出值; 空 → 用 robot.yaml 默认值
-            auto kp_cc = [&](size_t i) -> double {
-                return kp.empty() ? robot_cfg_->kp_[robot_cfg_->close_chain_motor_idx_[i]]
-                                  : static_cast<double>(kp[close_chain_joint_idx_[i]]);
-            };
-            auto kd_cc = [&](size_t i) -> double {
-                return kd.empty() ? robot_cfg_->kd_[robot_cfg_->close_chain_motor_idx_[i]]
-                                  : static_cast<double>(kd[close_chain_joint_idx_[i]]);
-            };
-            auto vel_target_cc = [&](size_t i) -> double {
-                return v.empty() ? 0.0 : static_cast<double>(v[close_chain_joint_idx_[i]]);
-            };
-            auto tau_ff_cc = [&](size_t i) -> double {
-                return tau.empty() ? 0.0 : static_cast<double>(tau[close_chain_joint_idx_[i]]);
-            };
-
-            // ③ 正解耦: 并联电机值 → 独立关节值
-            forward_close_chain();
-
-            // ④ 逆解耦: PD 算关节力矩 → 映射为电机力矩
-            // τ_joint = kp × (p_des - q) + kd × (v_des - v) + τ_ff
-            // → get_decoupleQVT → τ_motor
-            Eigen::VectorXd q(2), vel(2), tau_cc(2);
-            for (size_t pair = 0; pair < 2; ++pair) {
-                const bool left = (pair == 0);
-                const size_t off = pair * 2;
-                int idx1 = close_chain_joint_idx_[off];
-                int idx2 = close_chain_joint_idx_[off + 1];
-                q << joint_q_[idx1], joint_q_[idx2];
-                vel << joint_vel_[idx1], joint_vel_[idx2];
-                // PD 公式
-                tau_cc << kp_cc(off)     * (p[idx1] - q[0])
-                        + kd_cc(off)     * (vel_target_cc(off)     - vel[0])
-                        + tau_ff_cc(off),
-                          kp_cc(off + 1) * (p[idx2] - q[1])
-                        + kd_cc(off + 1) * (vel_target_cc(off + 1) - vel[1])
-                        + tau_ff_cc(off + 1);
-                // 逆解耦: 独立关节力矩 → 并联电机力矩, 结果写入 p[idx]
-                ankle_decouple_->get_decoupleQVT(q, vel, tau_cc, left);
-                p[idx1] = static_cast<float>(tau_cc[0]);
-                p[idx2] = static_cast<float>(tau_cc[1]);
-            }
-        }
     }  // ← joint_mutex_ 释放
 
-    // ⑤ 组装电机目标值 (motors_mutex_ 保护)
-    // URDF 顺序 → CAN 顺序, 区分闭链关节(力矩控制) vs 普通关节(位置控制)
+    // ③ 组装电机目标值 (motors_mutex_ 保护)
+    // URDF 顺序 → CAN 顺序, MIT 位置控制
     {
         std::unique_lock<std::mutex> lock(motors_mutex_);
         for (size_t i = 0; i < motor_pos_target_.size(); i++){
-            const size_t ji = motor2urdf_[i];   // 电机 i → URDF 关节
-
-            const bool close_chain_tau = use_close_chain_tau &&
-                std::find(robot_cfg_->close_chain_motor_idx_.begin(),
-                          robot_cfg_->close_chain_motor_idx_.end(),
-                          static_cast<long int>(i)) != robot_cfg_->close_chain_motor_idx_.end();
-
-            if (close_chain_tau) {
-                // 闭链关节 = 纯力矩控制 (pos/vel/kp/kd 全零)
-                motor_pos_target_[i] = 0.0f;
-                motor_vel_target_[i] = 0.0f;
-                motor_kp_target_[i]  = 0.0f;
-                motor_kd_target_[i]  = 0.0f;
-                motor_tau_target_[i] = p[ji] * robot_cfg_->motor_sign_[i];
-            } else {
-                // 普通关节 = MIT 位置控制
-                motor_pos_target_[i] = p[ji];
-                motor_vel_target_[i] = v.empty()  ? 0.0f : v[ji] * robot_cfg_->motor_sign_[i];
-                motor_kp_target_[i]  = kp.empty() ? static_cast<float>(robot_cfg_->kp_[i]) : kp[ji];
-                motor_kd_target_[i]  = kd.empty() ? static_cast<float>(robot_cfg_->kd_[i]) : kd[ji];
-                motor_tau_target_[i] = tau.empty() ? 0.0f : tau[ji] * robot_cfg_->motor_sign_[i];
-            }
+            const size_t ji = motor2urdf_[i];
+            motor_pos_target_[i] = p[ji];
+            motor_vel_target_[i] = v.empty()  ? 0.0f : v[ji] * robot_cfg_->motor_sign_[i];
+            motor_kp_target_[i]  = kp.empty() ? static_cast<float>(robot_cfg_->kp_[i]) : kp[ji];
+            motor_kd_target_[i]  = kd.empty() ? static_cast<float>(robot_cfg_->kd_[i]) : kd[ji];
+            motor_tau_target_[i] = tau.empty() ? 0.0f : tau[ji] * robot_cfg_->motor_sign_[i];
         }
     }
 
@@ -356,21 +242,7 @@ void RobotInterface::apply_action(std::vector<float> p,
 // 闭链关节需要先逆解耦: 独立关节角度 → 并联电机目标位置
 // ============================================================================
 void RobotInterface::reset_joints(std::vector<double> joint_default_angle) {
-    // ① 踝关节逆解耦: 独立关节角度 → 电机目标
-    if (!close_chain_joint_idx_.empty() && ankle_decouple_){
-        Eigen::VectorXd q(2), vel(2), tau(2);
-        for (size_t pair = 0; pair < 2; ++pair) {
-            const bool left = (pair == 0);
-            int idx1 = close_chain_joint_idx_[pair * 2];
-            int idx2 = close_chain_joint_idx_[pair * 2 + 1];
-            q << joint_default_angle[idx1], joint_default_angle[idx2];
-            ankle_decouple_->get_decoupleQVT(q, vel, tau, left);
-            joint_default_angle[idx1] = q[0];  // 替换为电机目标位置
-            joint_default_angle[idx2] = q[1];
-        }
-    }
-
-    // ② 阶段1: 低 KP 缓慢复位
+    // ① 阶段1: 低 KP 缓慢复位
     {
         std::unique_lock<std::mutex> lock(motors_mutex_);
         for (size_t i = 0; i < motor_pos_target_.size(); i++){
@@ -491,10 +363,6 @@ void RobotInterface::refresh_joints() {
             joint_tau_[motor2urdf_[idx]] = motor->get_motor_current() * robot_cfg_->motor_sign_[idx];
         });
 
-        // ④ 踝关节解耦
-        if (!close_chain_joint_idx_.empty() && ankle_decouple_) {
-            forward_close_chain();
-        }
     }
 }
 

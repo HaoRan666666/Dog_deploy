@@ -99,10 +99,6 @@ std::vector<std::string> split_obs_layout_spec(const std::string& layout_spec) {
 // ============================================================================
 const std::vector<ObsSourceDefinition>& InferenceNode::obs_source_definitions() {
     static const std::vector<ObsSourceDefinition> definitions{
-        // 运动策略相关: 参考轨迹的关节位置和速度 (从 NPZ 文件读取)
-        {"motion_pos", &InferenceNode::get_motion_pos_obs},
-        {"motion_vel", &InferenceNode::get_motion_vel_obs},
-
         // 传感器数据: IMU 角速度 (机体坐标系, 3 维)
         {"ang_vel", &InferenceNode::get_ang_vel_obs},
 
@@ -126,10 +122,8 @@ const std::vector<ObsSourceDefinition>& InferenceNode::obs_source_definitions() 
         // 模式标志: 中断模式标志 (1 维, 0.0=正常推理 / 1.0=中断模式)
         // 让网络知道当前处于中断状态, 可以调整行为 (例如不输出大幅度动作)
         {"interrupt", &InferenceNode::get_interrupt_obs},
+        //暂时不知道有什么用
 
-        // 外部感知: 感知观测 (如高度图、视觉特征等, 维度由外部话题数据决定)
-        // 数据从 perception_obs_buffer_ 读取, 由外部节点发布到感知话题
-        {"perception", &InferenceNode::get_perception_obs},
     };
     return definitions;
 }
@@ -304,28 +298,6 @@ void InferenceNode::flatten_obs_segments(const std::vector<std::vector<float>>& 
     }
 }
 
-// ============================================================================
-// step_motion_frame — 运动策略模式: 推进一帧运动轨迹
-//
-// 每次推理循环中, 如果当前策略是运动策略 (含 NPZ 轨迹文件),
-// 执行完推理后调用此函数 → motion_frame 递增 → 下一帧推理时
-// get_motion_pos_obs/get_motion_vel_obs 会读取新一帧的参考数据。
-//
-// 边界处理: 到达轨迹末尾时不再前进, 停在最后一帧 (loiter on last frame)
-//           不会循环或归零 — 运动策略播放完毕后停在最终姿态。
-//           重置由 reset_policy_runtime() 负责 (motion_frame 归零)
-// ============================================================================
-void InferenceNode::step_motion_frame() {
-    auto& policy = active_policy();
-    if (!policy.motion_loader) {
-        return;                              // 非运动策略, 无需推进
-    }
-    policy.motion_frame += 1;
-    // 到达末尾 → 停在最后一帧 (不循环, 不归零)
-    if (policy.motion_frame >= policy.motion_loader->get_num_frames()) {
-        policy.motion_frame = policy.motion_loader->get_num_frames() - 1;
-    }
-}
 
 // ============================================================================
 // 以下是 10 个观测分量采集函数 (getter)
@@ -348,30 +320,6 @@ void InferenceNode::step_motion_frame() {
 //   训练时观测会做归一化 (除以标准差或以范围缩放), 部署时必须复现完全相同的缩放。
 //   缩放系数从 YAML 读取 (obs_scales_ang_vel_, obs_scales_dof_pos_ 等)。
 // ============================================================================
-
-// ---------------------------------------------------------------------------
-// get_motion_pos_obs — 运动参考关节位置 (运动策略模式专用)
-//
-// 从 NPZ 运动文件中读取当前帧的参考关节位置。
-// NPZ 文件中的数值是训练时录制的参考轨迹, 单位是弧度, 不需要缩放。
-// ---------------------------------------------------------------------------
-void InferenceNode::get_motion_pos_obs(std::vector<float>& segment) {
-    auto& policy = active_policy();
-    // motion_loader->get_pos(frame) 返回该帧的关节位置 vector<float>[23]
-    const std::vector<float>& motion_pos = policy.motion_loader->get_pos(policy.motion_frame);
-    std::copy(motion_pos.begin(), motion_pos.end(), segment.begin());
-}
-
-// ---------------------------------------------------------------------------
-// get_motion_vel_obs — 运动参考关节速度 (运动策略模式专用)
-//
-// 从 NPZ 运动文件中读取当前帧的参考关节速度。
-// ---------------------------------------------------------------------------
-void InferenceNode::get_motion_vel_obs(std::vector<float>& segment) {
-    auto& policy = active_policy();
-    const std::vector<float>& motion_vel = policy.motion_loader->get_vel(policy.motion_frame);
-    std::copy(motion_vel.begin(), motion_vel.end(), segment.begin());
-}
 
 // ---------------------------------------------------------------------------
 // get_ang_vel_obs — IMU 角速度观测
@@ -548,21 +496,4 @@ void InferenceNode::get_interrupt_obs(std::vector<float>& segment) {
     segment[0] = is_interrupt_.load() ? 1.0f : 0.0f;
 }
 
-// ---------------------------------------------------------------------------
-// get_perception_obs — 外部感知观测
-//
-// 从 perception_obs_buffer_ 读取感知数据 (如高度图、视觉潜变量等)。
-// 数据由外部节点发布到 perception_obs_topic_ (YAML 配置),
-// subs_elevation_callback 接收到后写入 perception_obs_buffer_。
-//
-// 加锁: perception_obs_buffer_ 由 main 线程写入, 由 inference 线程读取。
-// 拷贝 segment.size() 个元素 — 只取前面部分, 因为 buffer 可能比观测需要的维度大。
-// ---------------------------------------------------------------------------
-void InferenceNode::get_perception_obs(std::vector<float>& segment) {
-    std::unique_lock<std::mutex> lock(perception_mutex_);
-    // 只拷贝 segment.size() 个元素: buffer 可能包含额外信息,
-    // 但观测只需要前 segment.size() 维
-    std::copy(perception_obs_buffer_.begin(),
-              perception_obs_buffer_.begin() + segment.size(),
-              segment.begin());
-}
+// get_perception_obs removed — not used by wheel_quad

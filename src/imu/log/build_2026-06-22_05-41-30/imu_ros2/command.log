@@ -1,4 +1,0 @@
-Invoking command in '/home/xhr/Dog_VMC/Module/imu/build/imu_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/xhr/Dog_VMC/Module/imu/imu_ros2 -DCMAKE_INSTALL_PREFIX=/home/xhr/Dog_VMC/Module/imu/install/imu_ros2
-Invoked command in '/home/xhr/Dog_VMC/Module/imu/build/imu_ros2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/xhr/Dog_VMC/Module/imu/imu_ros2 -DCMAKE_INSTALL_PREFIX=/home/xhr/Dog_VMC/Module/imu/install/imu_ros2
-Invoking command in '/home/xhr/Dog_VMC/Module/imu/build/imu_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/xhr/Dog_VMC/Module/imu/build/imu_ros2 -- -j24 -l24
-Invoked command in '/home/xhr/Dog_VMC/Module/imu/build/imu_ros2' returned '2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/xhr/Dog_VMC/Module/imu/build/imu_ros2 -- -j24 -l24

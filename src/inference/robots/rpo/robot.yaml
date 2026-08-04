@@ -2,8 +2,7 @@ imu:
     imu_id: 8
     imu_interface_type: "serial"
     imu_interface: "/dev/ttyUSB0"
-    imu_type: "HIPNUC"
-    baudrate: 921600
+    imu_type: "DAMIAO"
 
 motors:
     motor_id: 

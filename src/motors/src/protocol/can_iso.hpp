@@ -5,8 +5,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
+#include "logger.hpp"
 
 // Callback types shared by all CAN backends
 using CanCbkFunc = std::function<void(const can_frame&)>;
@@ -54,23 +53,17 @@ public:
         const std::string& interface,
         const std::string& backend = "socketcan");
 
-    static void init_logger(std::shared_ptr<spdlog::logger> logger);
+    static void init_logger(std::shared_ptr<Logger> logger);
 
 protected:
     MotorsCAN() = default;
-    inline static std::shared_ptr<spdlog::logger> logger_ = nullptr;
+    inline static std::shared_ptr<Logger> logger_ = nullptr;
 
     inline static void ensure_logger() {
         if (!logger_) {
-            logger_ = spdlog::get("motors");
-            if (!logger_) {
-                std::vector<spdlog::sink_ptr> sinks;
-                sinks.push_back(std::make_shared<spdlog::sinks::stderr_color_sink_st>());
-                logger_ = std::make_shared<spdlog::logger>("motors", std::begin(sinks), std::end(sinks));
-                spdlog::register_logger(logger_);
-            }
+            logger_ = Logger::get_or_create("motors");
         }
     }
 };
 
-inline void MotorsCAN::init_logger(std::shared_ptr<spdlog::logger> logger) { logger_ = logger; }
+inline void MotorsCAN::init_logger(std::shared_ptr<Logger> logger) { logger_ = std::move(logger); }

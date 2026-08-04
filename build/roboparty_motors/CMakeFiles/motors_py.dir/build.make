@@ -97,7 +97,6 @@ motors_py.cpython-314-x86_64-linux-gnu.so: src/drivers/lro/liblro_motors.a
 motors_py.cpython-314-x86_64-linux-gnu.so: src/drivers/rs02/librs02_motors.a
 motors_py.cpython-314-x86_64-linux-gnu.so: src/protocol/can/libmotors_can.a
 motors_py.cpython-314-x86_64-linux-gnu.so: src/protocol/canfd/libmotors_canfd.a
-motors_py.cpython-314-x86_64-linux-gnu.so: /usr/lib/x86_64-linux-gnu/libspdlog.so.1.12.0
 motors_py.cpython-314-x86_64-linux-gnu.so: /home/rp/miniconda3/lib/libfmt.so.12.1.0
 motors_py.cpython-314-x86_64-linux-gnu.so: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.83.0
 motors_py.cpython-314-x86_64-linux-gnu.so: CMakeFiles/motors_py.dir/link.txt

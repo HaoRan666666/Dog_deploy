@@ -1,6 +1,0 @@
-# CMake generated Testfile for 
-# Source directory: /home/rp/Dog_deploy/build/roboparty_imu/roboparty_imu__rs
-# Build directory: /home/rp/Dog_deploy/build/roboparty_imu/roboparty_imu__rs
-# 
-# This file includes the relevant testing commands required for 
-# testing this directory and lists subdirectories to be tested as well.

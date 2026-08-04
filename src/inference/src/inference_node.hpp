@@ -26,7 +26,6 @@
 #include <sensor_msgs/msg/joy.hpp>
 #include <geometry_msgs/msg/twist.hpp>
 #include <std_msgs/msg/float32_multi_array.hpp>
-#include "utils/motion_loader.hpp"
 #include <std_srvs/srv/trigger.hpp>
 #include "robot_interface.hpp"
 
@@ -126,7 +125,6 @@ class InferenceNode : public rclcpp::Node {
     struct PolicyRuntime {
         std::string name;                            // 策略/模型名 (如 "policy.onnx")
         std::string model_path;                      // ONNX 模型文件绝对路径
-        std::string motion_path;                     // 运动轨迹 NPZ 文件路径 (可为空)
         std::vector<ObsSourceSpec> obs_layout;       // 主观测布局规范列表
         std::vector<int> obs_layout_sizes;           // 各分量维度 (如 [3,3,3,23,23,23])
         std::vector<std::vector<float>> obs_segments; // 各分量临时缓存 (采集时逐分量填入)
@@ -138,8 +136,6 @@ class InferenceNode : public rclcpp::Node {
         int frame_stack = 1;                         // 保留多少帧历史 (如 10 或 3)
         ObsStackOrder stack_order = ObsStackOrder::FrameMajor; // 帧排列方式
         std::unique_ptr<ModelContext> ctx;           // ONNX 推理上下文
-        std::shared_ptr<MotionLoader> motion_loader; // 运动轨迹加载器
-        size_t motion_frame = 0;                     // 当前播放到的运动帧序号
         bool is_first_frame = true;                  // 是否首帧 (用于初始化历史缓冲区)
     };
 
@@ -174,16 +170,7 @@ class InferenceNode : public rclcpp::Node {
             for (size_t j = 0; j < policy.extra_obs_layout.size(); j++) {
                 policy.extra_obs_segments[j].resize(policy.extra_obs_layout[j].size, 0.0f);
             }
-            // 加载运动轨迹文件
-            if (!policy.motion_path.empty()) {
-                policy.motion_loader = std::make_shared<MotionLoader>(policy.motion_path);
-                if (policy.motion_loader->get_num_frames() == 0) {
-                    throw std::runtime_error("Motion file has no frames: " + policy.motion_path);
-                }
-                if (policy.motion_loader->get_num_joints() != static_cast<size_t>(joint_num_)) {
-                    throw std::runtime_error("Motion joint count mismatch: " + policy.motion_path);
-                }
-            }
+            // Motion policy support removed (not used by wheel_quad)
             // input_size = obs_num × frame_stack + extra_obs_num
             // 如: 78 × 10 + 0 = 780 (RPO-Flat) 或 78 × 3 + 0 = 234 (AMP)
             setup_model(policy.ctx, policy.model_path,
@@ -272,8 +259,7 @@ class InferenceNode : public rclcpp::Node {
 
     // 查询是否有中断观测源 (ang_vel, cmd_vel 等之外的 interrupt 分量)
     bool supports_interrupt() const;
-    // 查询是否有运动策略 (即含 .npz 轨迹文件的策略)
-    bool has_motion_policy() const;
+    // has_motion_policy removed — not used by wheel_quad
 
    private:
     // =========================================================================
@@ -476,9 +462,6 @@ class InferenceNode : public rclcpp::Node {
     void get_dof_vel_obs(std::vector<float>& segment);      // 关节速度 "dof_vel":23
     void get_last_action_obs(std::vector<float>& segment);  // 上一帧动作 "last_action":23
     void get_interrupt_obs(std::vector<float>& segment);    // 中断标志 "interrupt":1
-    void get_perception_obs(std::vector<float>& segment);   // 感知观测 "perception":N
-    void get_motion_pos_obs(std::vector<float>& segment);   // 参考关节位置 "motion_pos":23
-    void get_motion_vel_obs(std::vector<float>& segment);   // 参考关节速度 "motion_vel":23
 
     // =========================================================================
     // ROS2 Service 回调

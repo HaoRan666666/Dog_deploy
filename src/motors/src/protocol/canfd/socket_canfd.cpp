@@ -5,7 +5,6 @@
  */
 
 #include "socket_canfd.hpp"
-#include <spdlog/sinks/stdout_color_sinks.h>
 
 // MotorsCANFD static members
 std::shared_ptr<MotorsCANFD> MotorsCANFD::get(const std::string& interface, const std::string& backend) {

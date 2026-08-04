@@ -8,11 +8,7 @@
 // #include "stw_motor_driver.hpp"
 // #include "xyn_motor_driver.hpp"
 
-MotorDriver::MotorDriver() {
-    std::vector<spdlog::sink_ptr> sinks;
-    sinks.push_back(std::make_shared<spdlog::sinks::stderr_color_sink_st>());
-    logger_ = setup_logger(sinks, "motors");
-}
+MotorDriver::MotorDriver() { logger_ = setup_logger("motors"); }
 std::shared_ptr<MotorDriver> MotorDriver::create_motor(uint16_t motor_id, const std::string& interface_type, const std::string& interface,
                                                       const std::string& motor_type, int motor_model, uint16_t master_id_offset, double motor_zero_offset) {
     // if (motor_type == "DM") {

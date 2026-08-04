@@ -13,7 +13,6 @@
  */
 
 #include "socket_can.hpp"
-#include <spdlog/sinks/stdout_color_sinks.h>
 
 // ── MotorsCAN 工厂：根据后端名称创建实例 ──
 std::shared_ptr<MotorsCAN> MotorsCAN::get(const std::string& interface, const std::string& backend) {

@@ -1,5 +1,0 @@
-source;share/roboparty_imu/local_setup.bash
-source;share/roboparty_imu/local_setup.dsv
-source;share/roboparty_imu/local_setup.ps1
-source;share/roboparty_imu/local_setup.sh
-source;share/roboparty_imu/local_setup.zsh
