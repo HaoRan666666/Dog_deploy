@@ -1,3 +1,5 @@
+cmake_policy(SET CMP0135 NEW)
+
 include(FetchContent)
 
 if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")

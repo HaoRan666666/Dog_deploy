@@ -27,6 +27,10 @@ find_package(fmt REQUIRED)
 find_package(roboparty_motors REQUIRED)
 find_package(damiao_imu REQUIRED)
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+# pybind11_add_module 默认链接 pybind11::lto（注入 -flto 串行 LTO），
+# 会让 lto-wrapper 报 "serial compilation of N LTRANS jobs" 且拖慢构建。
+# robot_py 只是对已 -O3 的 robot 静态库做薄封装，LTO 无收益，直接关闭。
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
 find_package(pybind11 REQUIRED)
 
 option(YAML_BUILD_SHARED_LIBS "Build shared library" OFF)

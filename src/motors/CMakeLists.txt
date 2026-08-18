@@ -18,6 +18,10 @@ find_package(Boost COMPONENTS system)
 find_package(fmt REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+# pybind11_add_module 默认链接 pybind11::lto（注入 -flto 串行 LTO），
+# 会让 lto-wrapper 报 "serial compilation of N LTRANS jobs" 且拖慢构建。
+# motors_py 只是对已 -O3 的 motors 静态库做薄封装，LTO 无收益，直接关闭。
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
 find_package(pybind11 REQUIRED)
 
 set(PUBLIC_DEPENDENCIES

@@ -7,7 +7,7 @@
 },
 {
   "directory": "/home/rp/Dog_deploy/build/roboparty_motors",
-  "command": "/usr/bin/c++ -DBOOST_SYSTEM_DYN_LINK -DBOOST_SYSTEM_NO_LIB -DFMT_SHARED -Dmotors_py_EXPORTS -I/home/rp/Dog_deploy/src/motors/include -I/home/rp/Dog_deploy/src/motors/src -I/home/rp/Dog_deploy/src/motors/src/drivers/lro/. -I/home/rp/Dog_deploy/src/motors/src/protocol/can/. -I/home/rp/Dog_deploy/src/motors/src/protocol/can/.. -I/home/rp/Dog_deploy/src/motors/src/protocol/canfd/. -I/home/rp/Dog_deploy/src/motors/src/protocol/canfd/.. -I/home/rp/Dog_deploy/src/motors/src/drivers/rs02/. -isystem /usr/include/python3.12 -isystem /usr/include/eigen3  -O3 -march=native -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -flto -fno-fat-lto-objects -o CMakeFiles/motors_py.dir/src/pybind_module.cpp.o -c /home/rp/Dog_deploy/src/motors/src/pybind_module.cpp",
+  "command": "/usr/bin/c++ -DBOOST_SYSTEM_DYN_LINK -DBOOST_SYSTEM_NO_LIB -DFMT_SHARED -Dmotors_py_EXPORTS -I/home/rp/Dog_deploy/src/motors/include -I/home/rp/Dog_deploy/src/motors/src -I/home/rp/Dog_deploy/src/motors/src/drivers/lro/. -I/home/rp/Dog_deploy/src/motors/src/protocol/can/. -I/home/rp/Dog_deploy/src/motors/src/protocol/can/.. -I/home/rp/Dog_deploy/src/motors/src/protocol/canfd/. -I/home/rp/Dog_deploy/src/motors/src/protocol/canfd/.. -I/home/rp/Dog_deploy/src/motors/src/drivers/rs02/. -isystem /usr/include/python3.12 -isystem /usr/include/eigen3  -O3 -march=native -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -o CMakeFiles/motors_py.dir/src/pybind_module.cpp.o -c /home/rp/Dog_deploy/src/motors/src/pybind_module.cpp",
   "file": "/home/rp/Dog_deploy/src/motors/src/pybind_module.cpp",
   "output": "CMakeFiles/motors_py.dir/src/pybind_module.cpp.o"
 },
