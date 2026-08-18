@@ -144,7 +144,7 @@ void RobotInterface::setup_motors(){
                 motors_cfg_->motor_id_[count],           // 电机硬件 ID (CAN 帧地址)
                 motors_cfg_->motor_interface_type_[i],   // "canfd" 或 "can"
                 motors_cfg_->motor_interface_[i],        // "can0", "can1"...
-                motors_cfg_->motor_type_[i],             // "RPO", "Unitree"...
+                motors_cfg_->motor_type_[count],         // 电机类型 (每电机一个, 如 "LRO_CAN"/"RS02")
                 motors_cfg_->motor_model_[count],        // 电机子型号
                 motors_cfg_->master_id_offset_,          // 主机 CAN ID 偏移
                 motors_cfg_->motor_zero_offset_[count]   // 编码器零位修正

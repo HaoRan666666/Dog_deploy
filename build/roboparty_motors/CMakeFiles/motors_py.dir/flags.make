@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DBOOST_SYSTEM_DYN_LINK -DBOOST_SYSTEM_NO_LIB -DFMT_SHARED -Dmotors_py_EXPORTS
 
-CXX_INCLUDES = -I/home/rp/Dog_deploy/src/motors/include -I/home/rp/Dog_deploy/src/motors/src -I/home/rp/Dog_deploy/src/motors/src/drivers/lro/. -I/home/rp/Dog_deploy/src/motors/src/protocol/can/. -I/home/rp/Dog_deploy/src/motors/src/protocol/can/.. -I/home/rp/Dog_deploy/src/motors/src/protocol/canfd/. -I/home/rp/Dog_deploy/src/motors/src/protocol/canfd/.. -I/home/rp/Dog_deploy/src/motors/src/drivers/rs02/. -isystem /home/rp/miniconda3/include/python3.14 -isystem /home/rp/miniconda3/include -isystem /usr/include/eigen3
+CXX_INCLUDES = -I/home/rp/Dog_deploy/src/motors/include -I/home/rp/Dog_deploy/src/motors/src -I/home/rp/Dog_deploy/src/motors/src/drivers/lro/. -I/home/rp/Dog_deploy/src/motors/src/protocol/can/. -I/home/rp/Dog_deploy/src/motors/src/protocol/can/.. -I/home/rp/Dog_deploy/src/motors/src/protocol/canfd/. -I/home/rp/Dog_deploy/src/motors/src/protocol/canfd/.. -I/home/rp/Dog_deploy/src/motors/src/drivers/rs02/. -isystem /usr/include/python3.12 -isystem /usr/include/eigen3
 
 CXX_FLAGS =  -O3 -march=native -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -flto -fno-fat-lto-objects
 

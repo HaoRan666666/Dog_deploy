@@ -317,7 +317,8 @@ class InferenceNode : public rclcpp::Node {
     float obs_scales_dof_vel_;                             // 关节速度观测缩放
     float obs_scales_gravity_b_;                           // 重力方向观测缩放
     float clip_observations_;                              // 观测截断阈值
-    float action_scale_;                                   // 动作缩放因子 (网络输出 × scale = 实际位置偏移)
+    std::vector<double> action_scales_;                    // 每关节动作缩放 (USD 顺序, [joint_num])
+    std::vector<long int> wheel_joint_indices_;            // 速度控制关节的 USD 索引 (轮子)
     float clip_actions_;                                   // 动作截断阈值
     std::vector<double> clip_cmd_;                         // 速度指令限幅 [x_min, x_max, y_min, y_max, yaw_min, yaw_max]
     std::vector<double> joint_default_angle_;              // 关节默认角度 (零点位置)
@@ -370,6 +371,8 @@ class InferenceNode : public rclcpp::Node {
     // =========================================================================
     std::vector<float> act_;                                // 当前策略输出的目标关节位置 [joint_num]
     std::vector<float> last_act_;                           // 上一帧的输出 (用于 EMA 平滑)
+    std::vector<float> act_vel_;                            // 当前策略输出的目标关节速度 (轮子) [joint_num]
+    std::vector<float> last_act_vel_;                       // 上一帧的速度输出 (用于 EMA 平滑)
     std::vector<float> cmd_vel_;                            // 速度指令 [vx, vy, ωz] (3 维)
     std::vector<float> interrupt_action_;                   // 中断模式下外部发送的关节目标
     std::vector<float> perception_obs_buffer_;              // 感知观测缓存 (高度图等)

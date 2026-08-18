@@ -187,22 +187,9 @@ src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o: \
  /usr/include/c++/13/bits/charconv.h \
  /usr/include/c++/13/bits/basic_string.tcc \
  /home/rp/Dog_deploy/src/motors/include/logger.hpp \
- /home/rp/miniconda3/include/fmt/color.h \
- /home/rp/miniconda3/include/fmt/format.h \
- /home/rp/miniconda3/include/fmt/base.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
- /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
- /usr/include/x86_64-linux-gnu/bits/local_lim.h \
- /usr/include/linux/limits.h \
- /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
- /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
- /usr/include/x86_64-linux-gnu/bits/uio_lim.h /usr/include/string.h \
- /usr/include/strings.h \
- /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
- /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
- /usr/include/c++/13/stdlib.h /usr/include/c++/13/cmath \
- /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/fmt/color.h /usr/include/fmt/format.h \
+ /usr/include/c++/13/cmath /usr/include/math.h \
+ /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
@@ -224,13 +211,21 @@ src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o: \
  /usr/include/c++/13/tr1/poly_hermite.tcc \
  /usr/include/c++/13/tr1/poly_laguerre.tcc \
  /usr/include/c++/13/tr1/riemann_zeta.tcc /usr/include/c++/13/cstdint \
- /usr/include/c++/13/cstring /usr/include/c++/13/stdexcept \
- /usr/include/c++/13/system_error \
+ /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
+ /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
+ /usr/include/c++/13/stdexcept /usr/include/c++/13/system_error \
  /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
- /home/rp/miniconda3/include/fmt/core.h /usr/include/c++/13/atomic \
- /usr/include/c++/13/mutex /usr/include/c++/13/bits/chrono.h \
- /usr/include/c++/13/ratio /usr/include/c++/13/ctime \
- /usr/include/c++/13/bits/parse_numbers.h \
+ /usr/include/fmt/core.h /usr/include/c++/13/iterator \
+ /usr/include/c++/13/bits/stream_iterator.h \
+ /usr/include/c++/13/bits/streambuf_iterator.h \
+ /usr/include/c++/13/streambuf /usr/include/c++/13/bits/ios_base.h \
+ /usr/include/c++/13/bits/locale_classes.h \
+ /usr/include/c++/13/bits/locale_classes.tcc \
+ /usr/include/c++/13/bits/streambuf.tcc /usr/include/fmt/core.h \
+ /usr/include/c++/13/atomic /usr/include/c++/13/mutex \
+ /usr/include/c++/13/bits/chrono.h /usr/include/c++/13/ratio \
+ /usr/include/c++/13/ctime /usr/include/c++/13/bits/parse_numbers.h \
  /usr/include/c++/13/bits/std_mutex.h \
  /usr/include/c++/13/bits/unique_lock.h /usr/include/linux/can/raw.h \
  /usr/include/net/if.h /usr/include/x86_64-linux-gnu/sys/socket.h \
@@ -427,13 +422,7 @@ src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o: \
  /usr/include/boost/type_traits/add_lvalue_reference.hpp \
  /usr/include/boost/type_traits/add_reference.hpp \
  /usr/include/boost/lockfree/detail/freelist.hpp \
- /usr/include/boost/array.hpp /usr/include/c++/13/iterator \
- /usr/include/c++/13/bits/stream_iterator.h \
- /usr/include/c++/13/bits/streambuf_iterator.h \
- /usr/include/c++/13/streambuf /usr/include/c++/13/bits/ios_base.h \
- /usr/include/c++/13/bits/locale_classes.h \
- /usr/include/c++/13/bits/locale_classes.tcc \
- /usr/include/c++/13/bits/streambuf.tcc /usr/include/boost/core/swap.hpp \
+ /usr/include/boost/array.hpp /usr/include/boost/core/swap.hpp \
  /usr/include/boost/core/enable_if.hpp \
  /usr/include/boost/throw_exception.hpp \
  /usr/include/boost/exception/exception.hpp \
@@ -466,6 +455,7 @@ src/protocol/canfd/CMakeFiles/motors_canfd.dir/socket_canfd.cpp.o: \
  /usr/include/boost/align/detail/throw_exception.hpp \
  /usr/include/boost/align/aligned_alloc.hpp \
  /usr/include/boost/align/detail/aligned_alloc_posix.hpp \
+ /usr/include/c++/13/stdlib.h \
  /usr/include/boost/align/aligned_allocator_forward.hpp \
  /usr/include/boost/lockfree/detail/prefix.hpp \
  /usr/include/boost/predef.h /usr/include/boost/predef/language.h \

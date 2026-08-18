@@ -93,12 +93,12 @@ class RobotInterface {
     //   motor_interface_[i] = "can0"          ← 第 i 个 CAN 口的接口名
     //   motor_num_[i]       = 3               ← 第 i 个 CAN 口上的电机数
     //   motor_id_[start..start+3] = {1,2,3}   ← 这些电机的物理 ID
-    //   motor_type_[i]      = "RPO"           ← 第 i 个 CAN 口上电机的类型
+    //   motor_type_[k]      = "RPO"           ← 第 k 个电机的类型 (每电机一个)
     //   所以 motor_interface_.size() == CAN 口数量, motor_id_.size() == 总电机数
     // =========================================================================
     struct MotorsCfg {
         int master_id_offset_;                                    // 主机 ID 偏移 (CAN 帧标识)
-        std::vector<std::string> motor_type_;                     // 电机类型 (每 CAN 口一个, 如 "RPO")
+        std::vector<std::string> motor_type_;                     // 电机类型 (每电机一个, 如 "RPO")
         std::vector<std::string> motor_interface_type_;           // 接口类型 (每 CAN 口一个, 如 "canfd")
         std::vector<std::string> motor_interface_;                // 接口名 (每 CAN 口一个, 如 "can0")
         std::vector<long int> motor_id_;                          // 电机物理 ID (每电机一个)

@@ -270,6 +270,8 @@ void InferenceNode::reset_runtime_state() {
         for (int i = 0; i < joint_num_; i++) {
             act_[i] = static_cast<float>(joint_default_angle_[i]);
             last_act_[i] = static_cast<float>(joint_default_angle_[i]);
+            act_vel_[i] = 0.0f;
+            last_act_vel_[i] = 0.0f;
         }
     }
     // 中断模式: 将中断关节目标复位到默认角度
@@ -337,6 +339,8 @@ void InferenceNode::initialize_runtime_state() {
     cmd_vel_.assign(3, 0.0f);                                     // [vx, vy, ωz]
     act_.assign(joint_num_, 0.0f);                                 // 当前动作输出 [23]
     last_act_.assign(joint_num_, 0.0f);                            // 上一帧动作 (用于 EMA 平滑)
+    act_vel_.assign(joint_num_, 0.0f);                             // 当前速度输出 (轮子) [23]
+    last_act_vel_.assign(joint_num_, 0.0f);                        // 上一帧速度输出 (用于 EMA 平滑)
     joint_pos_buffer_.assign(joint_num_, 0.0f);                    // 关节位置 [23]
     joint_vel_buffer_.assign(joint_num_, 0.0f);                    // 关节速度 [23]
     joint_torques_buffer_.assign(joint_num_, 0.0f);               // 关节力矩 [23]
@@ -410,11 +414,14 @@ void InferenceNode::apply_action() {
     {
         std::unique_lock<std::mutex> lock(act_mutex_);
         // EMA 平滑: 使动作输出连续变化，避免突变导致机器人抖动
+        // 位置 (腿部) 与速度 (轮子) 分别平滑
         for (size_t i = 0; i < act_.size(); i++) {
             last_act_[i] = act_alpha_ * act_[i] + (1 - act_alpha_) * last_act_[i];
+            last_act_vel_[i] = act_alpha_ * act_vel_[i] + (1 - act_alpha_) * last_act_vel_[i];
         }
     }
-    robot_->apply_action(last_act_);
+    // 位置目标 (腿部) + 速度目标 (轮子) 一并写入硬件
+    robot_->apply_action(last_act_, last_act_vel_);
 }
 
 // ============================================================================
@@ -564,18 +571,27 @@ void InferenceNode::inference() {
             // ── 步骤 8: 后处理 ────────────────────────────────────────
             {
                 std::unique_lock<std::mutex> lock(act_mutex_);
-                for (int i = 0; i < policy.ctx->output_buffer.size(); i++) {
+                const int n = static_cast<int>(policy.ctx->output_buffer.size());
+                for (int i = 0; i < n; i++) {
                     // 8a: 动作截断
                     policy.ctx->output_buffer[i] = std::clamp(policy.ctx->output_buffer[i],
                                                                -clip_actions_, clip_actions_);
                     // 8b: USD→URDF 关节索引重映射
                     //     模型输出按 USD 关节顺序，但硬件使用 URDF 顺序
-                    act_[usd2urdf_[i]] = policy.ctx->output_buffer[i];
-                    // 8c: 缩放 + 偏移
-                    //     act = output × action_scale + default_angle
-                    //     网络输出是相对偏移量，加上默认角度得到绝对目标位置
-                    act_[usd2urdf_[i]] = act_[usd2urdf_[i]] * action_scale_ +
-                                         joint_default_angle_[usd2urdf_[i]];
+                    const size_t urdf = static_cast<size_t>(usd2urdf_[i]);
+                    const float scaled = policy.ctx->output_buffer[i] *
+                                         static_cast<float>(action_scales_[i]);
+                    // 8c: 速度/位置分流
+                    //     轮子 (wheel_joint_indices) → 速度控制, 不叠加默认角度
+                    //     腿部                     → 位置控制, scale + 默认角度
+                    const bool is_wheel =
+                        std::find(wheel_joint_indices_.begin(), wheel_joint_indices_.end(),
+                                  static_cast<long int>(i)) != wheel_joint_indices_.end();
+                    if (is_wheel) {
+                        act_vel_[urdf] = scaled;
+                    } else {
+                        act_[urdf] = scaled + static_cast<float>(joint_default_angle_[urdf]);
+                    }
                 }
 
                 // ── 中断模式: 用外部指令覆盖尾部关节 ──────────────────

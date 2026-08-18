@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/motors_py.dir/src/pybind_module.cpp.o"
   "CMakeFiles/motors_py.dir/src/pybind_module.cpp.o.d"
-  "motors_py.cpython-314-x86_64-linux-gnu.so"
+  "motors_py.cpython-312-x86_64-linux-gnu.so"
   "motors_py.pdb"
 )
 

@@ -422,7 +422,9 @@ void InferenceNode::get_dof_pos_obs(std::vector<float>& segment) {
     joint_pos_buffer_ = robot_->get_joint_q();     // 从硬件读取关节位置 (URDF 顺序)
 
     // 按 USD 顺序重排并做偏移+缩放
-    for (int i = 0; i < joint_num_; i++) {
+    // 注意: dof_pos 只含腿部关节 (segment.size() = 12), 轮子不在此观测内
+    const int n = static_cast<int>(segment.size());
+    for (int i = 0; i < n; i++) {
         segment[i] = (joint_pos_buffer_[usd2urdf_[i]]            // 从 URDF 索引取数据
                       - joint_default_angle_[usd2urdf_[i]])      // 减去默认角度 (归零)
                      * obs_scales_dof_pos_;                      // 缩放
@@ -449,7 +451,8 @@ void InferenceNode::get_dof_pos_obs(std::vector<float>& segment) {
 // ---------------------------------------------------------------------------
 void InferenceNode::get_dof_vel_obs(std::vector<float>& segment) {
     joint_vel_buffer_ = robot_->get_joint_vel();   // 从硬件读取关节速度 (URDF 顺序)
-    for (int i = 0; i < joint_num_; i++) {
+    const int n = static_cast<int>(segment.size());
+    for (int i = 0; i < n; i++) {
         segment[i] = joint_vel_buffer_[usd2urdf_[i]] * obs_scales_dof_vel_;
     }
 }
@@ -471,7 +474,8 @@ void InferenceNode::get_dof_vel_obs(std::vector<float>& segment) {
 // ---------------------------------------------------------------------------
 void InferenceNode::get_last_action_obs(std::vector<float>& segment) {
     const auto& policy = active_policy();
-    for (int i = 0; i < joint_num_; i++) {
+    const int n = static_cast<int>(segment.size());
+    for (int i = 0; i < n; i++) {
         segment[i] = policy.ctx->output_buffer[i];    // 直接从 ONNX 输出缓冲区取
     }
 }
