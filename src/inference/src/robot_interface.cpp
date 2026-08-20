@@ -112,7 +112,7 @@ RobotInterface::RobotInterface(const std::string& config_file) {
     thread_pool_ = std::make_unique<ThreadPool>(motors_cfg_->motor_interface_.size());
 
     // ── 状态缓冲区初始化为全零 ──────────────────────────────────────────
-    // 大小 = 电机总数 (如 23)
+    // 大小 = 电机总数 (wheel_quad: 16)
     joint_q_   = std::vector<float>(motors_cfg_->motor_id_.size(), 0.0);
     joint_vel_ = std::vector<float>(motors_cfg_->motor_id_.size(), 0.0);
     joint_tau_ = std::vector<float>(motors_cfg_->motor_id_.size(), 0.0);

@@ -51,7 +51,7 @@ class RobotInterface {
     // =========================================================================
     // 构造函数 — 加载 robot.yaml 并初始化所有硬件
     //
-    // config_file: robot.yaml 的绝对路径 (如 /path/to/robots/rpo/robot.yaml)
+    // config_file: robot.yaml 的绝对路径 (如 /path/to/robots/wheel_quad/robot.yaml)
     //
     // 初始化顺序 (严格):
     //   ① 解析 IMU 配置 → setup_imu() (可选, 无 IMU 字段则跳过)

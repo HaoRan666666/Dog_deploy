@@ -108,13 +108,13 @@ const std::vector<ObsSourceDefinition>& InferenceNode::obs_source_definitions() 
         // 指令数据: 速度指令 [vx, vy, ωz] (来自手柄摇杆或 /cmd_vel 话题)
         {"cmd_vel", &InferenceNode::get_cmd_vel_obs},
 
-        // 本体感知: 关节位置 (电机编码器读数, 23 维, 经 usd2urdf 重排)
+        // 本体感知: 关节位置 (电机编码器读数, 维度由 obs_layout 指定, 经 usd2urdf 重排)
         {"dof_pos", &InferenceNode::get_dof_pos_obs},
 
-        // 本体感知: 关节速度 (电机转速, 23 维, 经 usd2urdf 重排)
+        // 本体感知: 关节速度 (电机转速, 维度由 obs_layout 指定, 经 usd2urdf 重排)
         {"dof_vel", &InferenceNode::get_dof_vel_obs},
 
-        // 历史数据: 上一帧 ONNX 模型的输出动作 (23 维)
+        // 历史数据: 上一帧 ONNX 模型的输出动作 (维度由 obs_layout 指定)
         // 这是训练/推理一致性的关键: 训练时网络也接收上一帧输出作为输入,
         // 部署时必须复现同样的输入格式
         {"last_action", &InferenceNode::get_last_action_obs},
@@ -122,7 +122,6 @@ const std::vector<ObsSourceDefinition>& InferenceNode::obs_source_definitions() 
         // 模式标志: 中断模式标志 (1 维, 0.0=正常推理 / 1.0=中断模式)
         // 让网络知道当前处于中断状态, 可以调整行为 (例如不输出大幅度动作)
         {"interrupt", &InferenceNode::get_interrupt_obs},
-        //暂时不知道有什么用
 
     };
     return definitions;

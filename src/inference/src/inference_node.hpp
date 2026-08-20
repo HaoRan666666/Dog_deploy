@@ -105,8 +105,8 @@ class InferenceNode : public rclcpp::Node {
         std::vector<std::string> output_names;        // 模型输出节点名列表
         std::vector<const char*> input_names_raw;     // 输入节点名 C 字符串 (ORT API 要求)
         std::vector<const char*> output_names_raw;    // 输出节点名 C 字符串
-        std::vector<int64_t> input_shape;             // 输入 shape (如 [1, 780])
-        std::vector<int64_t> output_shape;            // 输出 shape (如 [1, 23])
+        std::vector<int64_t> input_shape;             // 输入 shape (如 [1, 159])
+        std::vector<int64_t> output_shape;            // 输出 shape (如 [1, 16])
         std::vector<float> input_buffer;              // 输入数据缓冲区 (帧栈展开后写入此)
         std::vector<float> output_buffer;             // 输出数据缓冲区 (推理结果读取此)
         size_t num_inputs;                            // 输入节点数
@@ -126,14 +126,14 @@ class InferenceNode : public rclcpp::Node {
         std::string name;                            // 策略/模型名 (如 "policy.onnx")
         std::string model_path;                      // ONNX 模型文件绝对路径
         std::vector<ObsSourceSpec> obs_layout;       // 主观测布局规范列表
-        std::vector<int> obs_layout_sizes;           // 各分量维度 (如 [3,3,3,23,23,23])
+        std::vector<int> obs_layout_sizes;           // 各分量维度 (如 [3,3,3,12,16,16])
         std::vector<std::vector<float>> obs_segments; // 各分量临时缓存 (采集时逐分量填入)
         std::vector<float> obs;                      // 单帧观测向量 (所有分量拼接后)
         std::vector<ObsSourceSpec> extra_obs_layout; // 额外观测布局 (如 perception)
         std::vector<std::vector<float>> extra_obs_segments; // 额外观测分量缓存
-        int obs_num = 0;                             // 单帧观测总维度 (如 78)
-        int extra_obs_num = 0;                       // 额外观测总维度 (如 187)
-        int frame_stack = 1;                         // 保留多少帧历史 (如 10 或 3)
+        int obs_num = 0;                             // 单帧观测总维度 (wheel_quad: 53)
+        int extra_obs_num = 0;                       // 额外观测总维度 (RPO 感知用, wheel_quad: 0)
+        int frame_stack = 1;                         // 保留多少帧历史 (wheel_quad: 3)
         ObsStackOrder stack_order = ObsStackOrder::FrameMajor; // 帧排列方式
         std::unique_ptr<ModelContext> ctx;           // ONNX 推理上下文
         bool is_first_frame = true;                  // 是否首帧 (用于初始化历史缓冲区)
@@ -172,7 +172,7 @@ class InferenceNode : public rclcpp::Node {
             }
             // Motion policy support removed (not used by wheel_quad)
             // input_size = obs_num × frame_stack + extra_obs_num
-            // 如: 78 × 10 + 0 = 780 (RPO-Flat) 或 78 × 3 + 0 = 234 (AMP)
+            // 如: 53 × 3 + 0 = 159 (wheel_quad)
             setup_model(policy.ctx, policy.model_path,
                         policy.obs_num * policy.frame_stack + policy.extra_obs_num);
         }
@@ -275,7 +275,7 @@ class InferenceNode : public rclcpp::Node {
     size_t current_motion_policy_idx_ = 0;                  // 当前选中的运动策略在 motion_policy_indices_ 中的序号
     int active_policy_idx_ = 0;                             // 当前活跃策略在 policies_ 中的索引
     int perception_obs_num_;                                // 感知观测维度 (高度图)
-    int joint_num_;                                         // 关节数量 (23)
+    int joint_num_;                                         // 关节数量 (wheel_quad: 16)
     int decimation_;                                        // 控制频率降采样因子 (decimation × dt = 控制周期)
 
     // =========================================================================

@@ -40,7 +40,7 @@ ObsStackOrder InferenceNode::parse_obs_stack_order(const std::string& stack_orde
 // │  input_buffer = [ang_vel₀ ang_vel₁ ang_vel₂ │ grav₀ grav₁ grav₂ │ ...]│
 // │                                                               │
 // │  每个观测分量独立维护自己的历史窗口:                             │
-// │    field_sizes = [3, 3, 3, 23, 23, 23]                        │
+// │    field_sizes = [3, 3, 3, 12, 16, 16]                        │
 // │    (ang_vel, gravity, cmd, joint_pos, joint_vel, action)       │
 // │                                                               │
 // │  首帧: 每个分量的历史槽位全部填入当前值                          │
@@ -53,7 +53,7 @@ ObsStackOrder InferenceNode::parse_obs_stack_order(const std::string& stack_orde
 // 参数:
 //   input_buffer:  ONNX 模型的输入缓冲区（会被原地修改）
 //   obs:           最新一帧的原始观测向量 [obs_num]
-//   obs_num:       单帧观测维度（如 78）
+//   obs_num:       单帧观测维度（wheel_quad: 53）
 //   frame_stack:   保留多少帧历史（如 10）
 //   stack_order:   FrameMajor 或 ObsMajor
 //   field_sizes:   仅在 ObsMajor 模式下使用，指定每个分量的维度
@@ -199,13 +199,13 @@ void InferenceNode::setup_model(std::unique_ptr<ModelContext>& ctx, std::string 
     // ── 解析模型输出 ─────────────────────────────────────────────────────
     ctx->num_outputs = ctx->session->GetOutputCount();
     ctx->output_names.resize(ctx->num_outputs);
-    ctx->output_buffer.resize(joint_num_);                            // 输出 = 关节目标位置 [23]
+    ctx->output_buffer.resize(joint_num_);                            // 输出 = 关节目标位置 [16]
 
     for (size_t i = 0; i < ctx->num_outputs; i++) {
         Ort::AllocatedStringPtr output_name = ctx->session->GetOutputNameAllocated(i, allocator_);
         ctx->output_names[i] = output_name.get();
         auto type_info = ctx->session->GetOutputTypeInfo(i);
-        ctx->output_shape = type_info.GetTensorTypeAndShapeInfo().GetShape();  // 如 [1, 23]
+        ctx->output_shape = type_info.GetTensorTypeAndShapeInfo().GetShape();  // 如 [1, 16]
     }
 
     // ── 构建 const char* 指针数组 (供 ORT Run API 使用) ──────────────────
@@ -337,13 +337,13 @@ void InferenceNode::initialize_runtime_state() {
 
     // 分配数据缓冲区
     cmd_vel_.assign(3, 0.0f);                                     // [vx, vy, ωz]
-    act_.assign(joint_num_, 0.0f);                                 // 当前动作输出 [23]
+    act_.assign(joint_num_, 0.0f);                                 // 当前动作输出 [16]
     last_act_.assign(joint_num_, 0.0f);                            // 上一帧动作 (用于 EMA 平滑)
-    act_vel_.assign(joint_num_, 0.0f);                             // 当前速度输出 (轮子) [23]
+    act_vel_.assign(joint_num_, 0.0f);                             // 当前速度输出 (轮子) [16]
     last_act_vel_.assign(joint_num_, 0.0f);                        // 上一帧速度输出 (用于 EMA 平滑)
-    joint_pos_buffer_.assign(joint_num_, 0.0f);                    // 关节位置 [23]
-    joint_vel_buffer_.assign(joint_num_, 0.0f);                    // 关节速度 [23]
-    joint_torques_buffer_.assign(joint_num_, 0.0f);               // 关节力矩 [23]
+    joint_pos_buffer_.assign(joint_num_, 0.0f);                    // 关节位置 [16]
+    joint_vel_buffer_.assign(joint_num_, 0.0f);                    // 关节速度 [16]
+    joint_torques_buffer_.assign(joint_num_, 0.0f);               // 关节力矩 [16]
     quat_buffer_.assign(4, 0.0f);                                  // 姿态四元数 [w,x,y,z]
     ang_vel_buffer_.assign(3, 0.0f);                               // 角速度 [ωx,ωy,ωz]
 
@@ -478,16 +478,15 @@ void InferenceNode::control() {
 //      ├─ 上一帧动作          → last_act_
 //      └─ 感知观测            → perception_obs_buffer_ (外部发布)
 //
-//   2. 拼接观测 → flatten_obs_segments() → obs[78]
-//      各分量首尾相接: [ang_vel:3 | gravity:3 | cmd:3 | dof_pos:23 | dof_vel:23 | last_action:23]
+//   2. 拼接观测 → flatten_obs_segments() → obs[53]
+//      各分量首尾相接: [ang_vel:3 | gravity_b:3 | cmd:3 | dof_pos:12 | dof_vel:16 | last_action:16]
 //
 //   3. 观测截断 → clamp(obs, -clip_observations_, +clip_observations_)
 //
 //   4. 帧栈更新 → update_stacked_obs()
 //      将单帧 obs 写入 input_buffer 的滑动窗口 → 构建多帧历史输入
 //
-//   5. (可选) 额外观测拼接
-//      如注意力编码器的 perception:187 拼接到 input_buffer 末尾
+//   5. (可选) 额外观测拼接 (RPO 感知用, wheel_quad 无)
 //
 //   6. (可选) 运动帧推进 → step_motion_frame()
 //      运动策略模式下，从 NPZ 文件读取下一帧参考姿态

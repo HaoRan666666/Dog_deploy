@@ -11,12 +11,12 @@
 
 inference_node:
     ros__parameters:
-        model_names: ["policy.onnx"]
+        model_names: ["policy_flat.onnx"]
         obs_layouts:
           - "ang_vel:3, gravity_b:3, cmd_vel:3, dof_pos:12, dof_vel:16, last_action:16"
         frame_stacks: [3]
         obs_stack_orders: ["obs_major"]
-        act_alpha: 1.0
+        act_alpha: 0.9
         joint_num: 16
         decimation: 8
         intra_threads: 1
@@ -35,7 +35,7 @@ inference_node:
              5.0, 5.0, 5.0, 5.0]           # FOOT 轮子 (速度控制)
         # 速度控制关节的 USD 索引 (轮子 → 走速度控制, 不叠加默认角度)
         wheel_joint_indices: [12, 13, 14, 15]
-        clip_actions: 100.0
+        clip_actions: 10.0
 
         # USD → URDF 关节顺序映射
         # USD (Isaac Sim, 按类型分组): [ABAD×4, HIP×4, KENN×4, FOOT×4], 每组内 LB/LF/RB/RF

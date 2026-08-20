@@ -21,7 +21,7 @@ void InferenceNode::load_config() {
     // ── 声明 ROS2 参数及其默认值 ──────────────────────────────────────────
     // 通过 declare_parameter 注册所有可配置参数，后续由 YAML/launch 覆盖
     const std::string default_robot_dir = std::string(ROOT_DIR) + "robots/wheel_quad";
-    this->declare_parameter<std::string>("robot_name", "rpo");
+    this->declare_parameter<std::string>("robot_name", "wheel_quad");
     this->declare_parameter<std::string>("policy_name", "default");
     this->declare_parameter<std::string>("robot_config", default_robot_dir + "/robot.yaml");
     this->declare_parameter<std::string>("model_dir", default_robot_dir + "/models");
@@ -35,9 +35,9 @@ void InferenceNode::load_config() {
     this->declare_parameter<float>("act_alpha", 0.9);
     this->declare_parameter<int>("intra_threads", -1);
     this->declare_parameter<std::string>("perception_obs_topic", "elevation_data");
-    this->declare_parameter<int>("joint_num", 23);
-    this->declare_parameter<int>("decimation", 10);
-    this->declare_parameter<float>("dt", 0.001);
+    this->declare_parameter<int>("joint_num", 16);
+    this->declare_parameter<int>("decimation", 8);
+    this->declare_parameter<float>("dt", 0.0025);
     this->declare_parameter<float>("obs_scales_lin_vel", 1.0);
     this->declare_parameter<float>("obs_scales_ang_vel", 1.0);
     this->declare_parameter<float>("obs_scales_dof_pos", 1.0);
@@ -46,7 +46,7 @@ void InferenceNode::load_config() {
     this->declare_parameter<float>("clip_observations", 100.0);
     this->declare_parameter<std::vector<double>>("action_scales", std::vector<double>{});
     this->declare_parameter<std::vector<long int>>("wheel_joint_indices", std::vector<long int>{});
-    this->declare_parameter<float>("clip_actions", 18.0);
+    this->declare_parameter<float>("clip_actions", 10.0);
     this->declare_parameter<std::vector<long int>>("usd2urdf", std::vector<long int>{});
     this->declare_parameter<std::vector<double>>("clip_cmd", std::vector<double>{});
     this->declare_parameter<std::vector<double>>("joint_default_angle", std::vector<double>{});
