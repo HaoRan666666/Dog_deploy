@@ -1,4 +1,9 @@
-cmake_policy(SET CMP0135 NEW)
+# CMP0135 (FetchContent/ExternalProject 下载时间戳) 仅 CMake >= 3.24 才存在。
+# Ubuntu 22.04 自带 CMake 3.22.1 会因未知 policy 直接报错，故按版本门控。
+# 本项目使用本地 tgz（无网络下载），该 policy 实际无影响。
+if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24")
+    cmake_policy(SET CMP0135 NEW)
+endif()
 
 include(FetchContent)
 
