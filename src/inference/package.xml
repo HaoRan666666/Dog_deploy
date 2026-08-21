@@ -15,7 +15,7 @@
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>std_srvs</depend>
-  <depend>roboparty_imu</depend>
+  <depend>damiao_imu</depend>
   <depend>roboparty_motors</depend>
 
   <test_depend>ament_lint_auto</test_depend>
