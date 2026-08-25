@@ -31,18 +31,18 @@ motors:
     motor_interface_type: ["can", "can", "can", "can"]
     motor_interface: ["can0", "can1", "can2", "can3"]
     motor_num: [4, 4, 4, 4]
-    # 电机类型 (每电机一个, 16 个): 前三个关节电机 LRO_CAN, 轮电机 RS02
+    # 电机类型 (每电机一个, 16 个): 关节电机 LRO_CAN, 轮电机灵足通用驱动 LINGZU
     motor_type:
-        ["LRO_CAN", "LRO_CAN", "LRO_CAN", "RS02",   # LF: 髋/大腿/小腿/轮
-         "LRO_CAN", "LRO_CAN", "LRO_CAN", "RS02",   # RF
-         "LRO_CAN", "LRO_CAN", "LRO_CAN", "RS02",   # LB
-         "LRO_CAN", "LRO_CAN", "LRO_CAN", "RS02"]   # RB
-    # 电机型号 (每电机一个): 2=关节电机(髋/大腿/小腿, 8462), 轮为 RS02 不查此表(值无意义)
+        ["LRO_CAN", "LRO_CAN", "LRO_CAN", "LINGZU",   # LF: 髋/大腿/小腿/轮
+         "LRO_CAN", "LRO_CAN", "LRO_CAN", "LINGZU",   # RF
+         "LRO_CAN", "LRO_CAN", "LRO_CAN", "LINGZU",   # LB
+         "LRO_CAN", "LRO_CAN", "LRO_CAN", "LINGZU"]   # RB
+    # 电机型号 (每电机一个): 2=关节(8462); 灵足轮电机 0=EL05, 1=RS02
     motor_model:
-        [2, 2, 2, 0,   # LF: 髋/大腿/小腿 = 8462, 轮 = RS02(忽略)
-         2, 2, 2, 0,   # RF
-         2, 2, 2, 0,   # LB
-         2, 2, 2, 0]   # RB
+        [2, 2, 2, 1,   # LF: 髋/大腿/小腿 = 8462, 轮 = RS02(模型1)
+         2, 2, 2, 1,   # RF
+         2, 2, 2, 1,   # LB
+         2, 2, 2, 1]   # RB
     master_id_offset: 5  
     # 电机编码器零点软件补偿 (rad): offset = -零位处编码器读数
     #        髋(ABD)  大腿(HIP)  小腿(KNEE)  轮

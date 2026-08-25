@@ -40,13 +40,13 @@ target_include_directories(motors
   $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(motors PUBLIC ${PUBLIC_DEPENDENCIES}
-  lro_motors rs02_motors
+  lro_motors lingzu_motors
   motors_can motors_canfd
 )
 
 install(DIRECTORY include/ DESTINATION include)
 
-install(TARGETS motors lro_motors rs02_motors motors_can motors_canfd
+install(TARGETS motors lro_motors lingzu_motors motors_can motors_canfd
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
@@ -79,7 +79,7 @@ install(TARGETS motors_py
 )
 
 if(ament_cmake_FOUND)
-    ament_export_libraries(motors lro_motors rs02_motors motors_can motors_canfd)
+    ament_export_libraries(motors lro_motors lingzu_motors motors_can motors_canfd)
     ament_export_include_directories(include)
     ament_package()
 endif()

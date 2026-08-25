@@ -1,7 +1,7 @@
 #include "motor_driver.hpp"
 #include "lro_motor_driver.hpp"
 #include "lro_motor_driver_can.hpp"
-#include "rs02_motor_driver.hpp"
+#include "lingzu_motor_driver.hpp"
 
 // #include "dm_motor_driver.hpp"
 // #include "evo_motor_driver.hpp"
@@ -23,9 +23,10 @@ std::shared_ptr<MotorDriver> MotorDriver::create_motor(uint16_t motor_id, const 
     } else if (motor_type == "LRO_CAN") {
         return std::make_shared<LroMotorDriverCAN>(motor_id, interface,
                                                     static_cast<LRO_CAN_Motor_Model>(motor_model), motor_zero_offset);
-    } else if (motor_type == "RS02") {
-        uint16_t host_can_id = master_id_offset == 0 ? RS02_DEFAULT_HOST_ID : master_id_offset;
-        return std::make_shared<Rs02MotorDriver>(motor_id, interface, host_can_id, motor_zero_offset);
+    } else if (motor_type == "LINGZU") {
+        uint16_t host_can_id = master_id_offset == 0 ? LINGZU_DEFAULT_HOST_ID : master_id_offset;
+        return std::make_shared<LingzuMotorDriver>(motor_id, interface, host_can_id,
+                                                   static_cast<LingzuMotorModel>(motor_model), motor_zero_offset);
     // } else if (motor_type == "STW") {
     //     return std::make_shared<StwMotorDriver>(motor_id, interface_type, interface,
     //                                             static_cast<STW_Motor_Model>(motor_model), motor_zero_offset);

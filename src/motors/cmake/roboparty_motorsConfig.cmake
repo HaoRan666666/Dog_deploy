@@ -41,7 +41,7 @@ endfunction()
 set(roboparty_motors_LIBRARIES "")
 _add_imported_lib(motors)
 _add_imported_lib(lro_motors)
-_add_imported_lib(rs02_motors)
+_add_imported_lib(lingzu_motors)
 _add_imported_lib(motors_can)
 _add_imported_lib(motors_canfd)
 

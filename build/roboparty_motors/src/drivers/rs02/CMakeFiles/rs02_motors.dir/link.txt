@@ -1,2 +1,0 @@
-/usr/bin/ar qc librs02_motors.a CMakeFiles/rs02_motors.dir/rs02_motor_driver.cpp.o
-/usr/bin/ranlib librs02_motors.a

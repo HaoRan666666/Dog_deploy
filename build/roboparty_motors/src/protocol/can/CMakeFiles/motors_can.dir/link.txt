@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmotors_can.a CMakeFiles/motors_can.dir/socket_can.cpp.o
-/usr/bin/ranlib libmotors_can.a

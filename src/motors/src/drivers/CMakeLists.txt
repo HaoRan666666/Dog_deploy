@@ -1,2 +1,2 @@
 add_subdirectory(lro)
-add_subdirectory(rs02)
+add_subdirectory(lingzu)
