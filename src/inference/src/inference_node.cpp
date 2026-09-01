@@ -675,9 +675,9 @@ int main(int argc, char** argv) {
         executor.add_node(node);
 
         // 打印手柄操作提示
-        RCLCPP_INFO(node->get_logger(), "Press 'X' to initialize/deinitialize motors");
-        RCLCPP_INFO(node->get_logger(), "Press 'A' to reset motors");
-        RCLCPP_INFO(node->get_logger(), "Press 'B' to start/pause inference");
+        RCLCPP_INFO(node->get_logger(), "Press 'B' to initialize/deinitialize motors");
+        RCLCPP_INFO(node->get_logger(), "Press 'A' to stand up (reset to default pose)");
+        RCLCPP_INFO(node->get_logger(), "Press 'X' to start/pause inference");
         RCLCPP_INFO(node->get_logger(),
                     "Press 'Y' to switch between Gamepad Control / cmd_vel Control");
         if (node->supports_interrupt()) {

@@ -223,18 +223,18 @@ void InferenceNode::load_config() {
 // ============================================================================
 // subs_joy_callback — 手柄/游戏手柄输入回调
 //
-// 手柄映射 (以常见 Xbox 布局为例):
-//   左摇杆上下  axes[4] → 线速度 x (前进/后退)
-//   左摇杆左右  axes[3] → 线速度 y (左右平移)
-//   LT (axes[2] < 0) 或 RT (axes[5] < 0) → 角速度 z (转向)
+// 手柄映射 (实测索引: A=0 B=1 X=3 Y=4 LB=6 RB=7; 摇杆 axes[0]=左Y axes[1]=左X axes[2]=右Y axes[3]=右X):
+//   左摇杆上下  axes[0] → 线速度 x (前进/后退)
+//   左摇杆左右  axes[1] → 线速度 y (左右平移)
+//   右摇杆左右  axes[3] → 角速度 z (转向, 无扳机轴)
 //
 // 按钮功能:
-//   按钮 B (buttons[2]) → 电机初始化/反初始化
+//   按钮 B (buttons[1]) → 电机初始化/反初始化
 //   按钮 A (buttons[0]) → 复位关节到默认角度
-//   按钮 X (buttons[1]) → 启动/暂停推理
-//   按钮 Y (buttons[3]) → 切换控制源 (手柄 / /cmd_vel)
-//   按钮 LB (buttons[4]) → 切换中断模式 或 运动策略
-//   按钮 RB (buttons[5]) → 切换运动策略 (在多个 motion 策略间轮转)
+//   按钮 X (buttons[3]) → 启动/暂停推理
+//   按钮 Y (buttons[4]) → 切换控制源 (手柄 / /cmd_vel)
+//   按钮 LB (buttons[6]) → 切换中断模式 或 运动策略
+//   按钮 RB (buttons[7]) → 切换运动策略 (在多个 motion 策略间轮转)
 //
 // 所有按钮使用边沿检测 (当前按下且上一周期未按下)，防止持续按住时重复触发
 // ============================================================================
@@ -242,23 +242,17 @@ void InferenceNode::subs_joy_callback(const std::shared_ptr<sensor_msgs::msg::Jo
     // ── 手柄模式: 摇杆值映射到 cmd_vel，并 clamp 到限幅范围 ────────────
     if (is_joy_control_) {
         std::unique_lock<std::mutex> lock(cmd_mutex_);
-        // x 方向线速度: 左摇杆上下，clip_cmd_[0]~[1] 限幅
-        cmd_vel_[0] = std::clamp(msg->axes[4] * clip_cmd_[1], clip_cmd_[0], clip_cmd_[1]);
-        // y 方向线速度: 左摇杆左右，clip_cmd_[2]~[3] 限幅
-        cmd_vel_[1] = std::clamp(msg->axes[3] * clip_cmd_[3], clip_cmd_[2], clip_cmd_[3]);
-        // z 方向角速度: LT(倒车) 或 RT(前进) 触发转向
-        if (msg->axes[2] < 0) {
-            cmd_vel_[2] = std::clamp(-msg->axes[2] * clip_cmd_[5], clip_cmd_[4], clip_cmd_[5]);
-        } else if (msg->axes[5] < 0) {
-            cmd_vel_[2] = std::clamp(msg->axes[5] * clip_cmd_[5], clip_cmd_[4], clip_cmd_[5]);
-        } else {
-            cmd_vel_[2] = 0.0;
-        }
+        // x 方向线速度: 左摇杆上下 (axes[0])，clip_cmd_[0]~[1] 限幅
+        cmd_vel_[0] = std::clamp(msg->axes[0] * clip_cmd_[1], clip_cmd_[0], clip_cmd_[1]);
+        // y 方向线速度: 左摇杆左右 (axes[1])，clip_cmd_[2]~[3] 限幅
+        cmd_vel_[1] = std::clamp(msg->axes[1] * clip_cmd_[3], clip_cmd_[2], clip_cmd_[3]);
+        // z 方向角速度: 右摇杆左右 (axes[3])，无扳机轴
+        cmd_vel_[2] = std::clamp(msg->axes[3] * clip_cmd_[5], clip_cmd_[4], clip_cmd_[5]);
     }
 
-    // ── 按钮 B (buttons[2]): 电机初始化/反初始化 ─────────────────────────
+    // ── 按钮 B (buttons[1]): 电机初始化/反初始化 ─────────────────────────
     // 先停推理 → 根据当前状态切换 init/deinit
-    if ((msg->buttons[2] == 1 && msg->buttons[2] != last_button0_)) {
+    if ((msg->buttons[1] == 1 && msg->buttons[1] != last_button0_)) {
         if (is_running_.load()) {
             reset_runtime_state();
             RCLCPP_INFO(this->get_logger(), "Inference paused");
@@ -286,21 +280,21 @@ void InferenceNode::subs_joy_callback(const std::shared_ptr<sensor_msgs::msg::Jo
         }
     }
 
-    // ── 按钮 X (buttons[1]): 启动/暂停推理 ──────────────────────────────
-    if (msg->buttons[1] == 1 && msg->buttons[1] != last_button2_) {
+    // ── 按钮 X (buttons[3]): 启动/暂停推理 ──────────────────────────────
+    if (msg->buttons[3] == 1 && msg->buttons[3] != last_button2_) {
         is_running_.store(!is_running_.load());
         RCLCPP_INFO(this->get_logger(), "Inference %s", is_running_.load() ? "started" : "paused");
     }
 
-    // ── 按钮 Y (buttons[3]): 切换控制源 (手柄 ↔ /cmd_vel) ──────────────
-    if (msg->buttons[3] == 1 && msg->buttons[3] != last_button3_) {
+    // ── 按钮 Y (buttons[4]): 切换控制源 (手柄 ↔ /cmd_vel) ──────────────
+    if (msg->buttons[4] == 1 && msg->buttons[4] != last_button3_) {
         is_joy_control_.store(!is_joy_control_);
         RCLCPP_INFO(this->get_logger(), "Controlled by %s", is_joy_control_.load() ? "joy" : "/cmd_vel");
     }
 
-    // ── 按钮 LB (buttons[4]): 切换中断模式 ─────────────────────────
+    // ── 按钮 LB (buttons[6]): 切换中断模式 ─────────────────────────
     if (supports_interrupt()) {
-        if (msg->buttons[4] == 1 && msg->buttons[4] != last_button4_) {
+        if (msg->buttons[6] == 1 && msg->buttons[6] != last_button4_) {
             const auto switch_while_paused = [this](auto&& switch_mode) {
                 std::unique_lock<std::mutex> switch_lock(lb_switch_mutex_);
                 const bool restore_running = is_running_.exchange(false);
@@ -328,16 +322,16 @@ void InferenceNode::subs_joy_callback(const std::shared_ptr<sensor_msgs::msg::Jo
                             is_interrupt_.load() ? "enabled" : "disabled");
             });
         }
-        last_button4_ = msg->buttons[4];
+        last_button4_ = msg->buttons[6];
     }
 
-    // ── 按钮 RB (buttons[5]): motion policy switching removed ──────
+    // ── 按钮 RB (buttons[7]): motion policy switching removed ──────
 
     // 保存本轮按钮状态，供下一周期边沿检测
-    last_button0_ = msg->buttons[2];
+    last_button0_ = msg->buttons[1];
     last_button1_ = msg->buttons[0];
-    last_button2_ = msg->buttons[1];
-    last_button3_ = msg->buttons[3];
+    last_button2_ = msg->buttons[3];
+    last_button3_ = msg->buttons[4];
 }
 
 // ============================================================================

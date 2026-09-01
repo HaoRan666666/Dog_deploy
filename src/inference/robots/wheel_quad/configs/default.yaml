@@ -26,7 +26,7 @@ inference_node:
         obs_scales_dof_pos: 1.0
         obs_scales_dof_vel: 1.0
         obs_scales_gravity_b: 1.0
-        clip_observations: 100.0
+        clip_observations: 150.0
         # 每关节动作缩放 (USD 顺序: [ABAD×4, HIP×4, KENN×4, FOOT×4])
         action_scales:
             [0.125, 0.125, 0.125, 0.125,   # ABAD 髋侧摆 (位置控制)
@@ -35,7 +35,7 @@ inference_node:
              5.0, 5.0, 5.0, 5.0]           # FOOT 轮子 (速度控制)
         # 速度控制关节的 USD 索引 (轮子 → 走速度控制, 不叠加默认角度)
         wheel_joint_indices: [12, 13, 14, 15]
-        clip_actions: 10.0
+        clip_actions: 150.0
 
         # USD → URDF 关节顺序映射
         # USD (Isaac Sim, 按类型分组): [ABAD×4, HIP×4, KENN×4, FOOT×4], 每组内 LB/LF/RB/RF
