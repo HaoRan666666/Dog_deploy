@@ -158,19 +158,11 @@ void RobotInterface::setup_motors(){
 // setup_imu — 创建 IMU 驱动实例
 // ============================================================================
 void RobotInterface::setup_imu(){
-    try {
-        imu_ = IMUDriver::create_imu(imu_cfg_->imu_id_,
-                                      imu_cfg_->imu_interface_type_,
-                                      imu_cfg_->imu_interface_,
-                                      imu_cfg_->imu_type_,
-                                      imu_cfg_->baudrate_);
-    } catch (const std::exception& e) {
-        // IMU 打开失败 (未插 / 路径错 / 无权限) → 不致命, 置空并降级运行
-        // 节点仍可启动, 电机相关功能可用, 但推理会被禁用 (见 start_inference 守卫)
-        imu_.reset();
-        std::cerr << "[RobotInterface] WARNING: IMU init failed (" << e.what()
-                  << "), running without IMU (inference disabled)." << std::endl;
-    }
+    imu_ = IMUDriver::create_imu(imu_cfg_->imu_id_,
+                                  imu_cfg_->imu_interface_type_,
+                                  imu_cfg_->imu_interface_,
+                                  imu_cfg_->imu_type_,
+                                  imu_cfg_->baudrate_);
 }
 
 // forward_close_chain removed — no closed-chain ankle mechanism in use

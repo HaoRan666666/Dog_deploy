@@ -152,7 +152,7 @@ sudo -E ros2 launch roboparty_inference inference.launch.py robot:=wheel_quad
 ```
 
 **验收标准**：
-- 节点启动无异常、无 `Exception caught: ...`（IMU 未接时打印 `[RobotInterface] WARNING: IMU init failed`，节点仍可启动、电机/站立等 service 可用，但**推理被禁用**）；
+- 节点启动无异常、无 `Exception caught: ...`（注意：**IMU 必须插着**，否则启动时 `Failed to open serial port: /dev/ttyACM0` 直接退出）；
 - 终端打印出参数（obs 布局、模型名、关节默认角度等）和手柄提示；
 - 打印出 `Press 'B' ... / 'A' ... / 'X' ...` 等操作提示。
 
@@ -231,7 +231,7 @@ ros2 topic echo /joint_states    # 关节实际状态
 
 | 现象 | 原因 | 处理 |
 |---|---|---|
-| 启动时 `[RobotInterface] WARNING: IMU init failed` | IMU 没插/路径错/没权限 | 节点仍启动、电机可用；推理需插 IMU、`ls /dev/ttyACM*`、加 dialout 组 |
+| 启动即退出 `Failed to open serial port` | IMU 没插/路径错/没权限 | 插 IMU、`ls /dev/ttyACM*`、加 dialout 组 |
 | `Failed to set realtime priority` | rtprio=0 / 无 CAP_SYS_NICE | `sudo -E` 启动，或 setcap/limits.conf |
 | 链接报 `x86-64` | onnxruntime x64 污染 | `rm -rf src/inference/thirdparty/onnxruntime` 重建 |
 | 电机无响应 | CAN 口没 up / ID 错 / 接线错 | `ip link show`、核对 `motor_id`、单电机测试 |
