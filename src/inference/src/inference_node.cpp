@@ -684,8 +684,8 @@ int main(int argc, char** argv) {
             RCLCPP_INFO(node->get_logger(),
                         "Press 'LB' to switch interrupt mode");
         }
-        RCLCPP_INFO(node->get_logger(), "Right Stick: Control forward, backward, left and right movement");
-        RCLCPP_INFO(node->get_logger(), "LT/RT: Control turning (left / right rotation)");
+        RCLCPP_INFO(node->get_logger(), "Left Stick: forward/back + left/right movement");
+        RCLCPP_INFO(node->get_logger(), "Right Stick: turning (left / right rotation)");
 
         // 阻塞直到 SIGINT / rclcpp::shutdown()
         executor.spin();

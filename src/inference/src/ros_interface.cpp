@@ -223,10 +223,10 @@ void InferenceNode::load_config() {
 // ============================================================================
 // subs_joy_callback — 手柄/游戏手柄输入回调
 //
-// 手柄映射 (实测索引: A=0 B=1 X=3 Y=4 LB=6 RB=7; 摇杆 axes[0]=左Y axes[1]=左X axes[2]=右Y axes[3]=右X):
+// 手柄映射 (实测索引: A=0 B=1 X=3 Y=4 LB=6 RB=7; 摇杆 axes[0]=左上下 axes[1]=左左右 axes[2]=右左右, 左推为正):
 //   左摇杆上下  axes[0] → 线速度 x (前进/后退)
-//   左摇杆左右  axes[1] → 线速度 y (左右平移)
-//   右摇杆左右  axes[3] → 角速度 z (转向, 无扳机轴)
+//   左摇杆左右  axes[1] → 线速度 y (左右平移, 左推为正)
+//   右摇杆左右  axes[2] → 角速度 z (转向, 左推为正)
 //
 // 按钮功能:
 //   按钮 B (buttons[1]) → 电机初始化/反初始化
@@ -246,8 +246,8 @@ void InferenceNode::subs_joy_callback(const std::shared_ptr<sensor_msgs::msg::Jo
         cmd_vel_[0] = std::clamp(msg->axes[0] * clip_cmd_[1], clip_cmd_[0], clip_cmd_[1]);
         // y 方向线速度: 左摇杆左右 (axes[1])，clip_cmd_[2]~[3] 限幅
         cmd_vel_[1] = std::clamp(msg->axes[1] * clip_cmd_[3], clip_cmd_[2], clip_cmd_[3]);
-        // z 方向角速度: 右摇杆左右 (axes[3])，无扳机轴
-        cmd_vel_[2] = std::clamp(msg->axes[3] * clip_cmd_[5], clip_cmd_[4], clip_cmd_[5]);
+        // z 方向角速度: 右摇杆左右 (axes[2])，无扳机轴
+        cmd_vel_[2] = std::clamp(msg->axes[2] * clip_cmd_[5], clip_cmd_[4], clip_cmd_[5]);
     }
 
     // ── 按钮 B (buttons[1]): 电机初始化/反初始化 ─────────────────────────
