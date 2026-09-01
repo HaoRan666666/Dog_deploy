@@ -401,7 +401,7 @@ void InferenceNode::reset_policy_runtime(PolicyRuntime& policy) {
 // ============================================================================
 // apply_action — 将动作输出写入机器人硬件
 //
-// 由 control 线程以 250Hz 频率调用。
+// 由 control 线程以 400Hz 频率调用。
 // 对策略输出的 act_ 做 EMA (指数移动平均) 平滑后写入机器人:
 //   last_act = α × act + (1-α) × last_act
 // 其中 α = act_alpha_ (如 0.9)，值越小平滑越多，值越大响应越快
@@ -425,16 +425,16 @@ void InferenceNode::apply_action() {
 }
 
 // ============================================================================
-// control — 控制线程主循环 (250Hz, SCHED_FIFO priority=70)
+// control — 控制线程主循环 (400Hz, SCHED_FIFO priority=70)
 //
 // 职责: 以固定频率将最新动作输出写入机器人硬件
-// 频率 = 1 / dt_ (如 dt=0.004 → 250Hz)
+// 频率 = 1 / dt_ (如 dt=0.0025 → 400Hz)
 //
 // 与推理线程的关系:
-//   inference (50Hz)           control (250Hz)
+//   inference (50Hz)           control (400Hz)
 //   ──────────────             ──────────────
 //   ONNX Run → 写入 act_  ──→  读取 last_act_ → EMA → 写入硬件
-//                               ↑ 每 5 次 inference 触发 1 次 control
+//                               ↑ 每 1 次 inference 对应 8 次 control
 //                               但 control 每次都用最新 act_ 做 EMA 平滑
 // ============================================================================
 void InferenceNode::control() {
@@ -500,7 +500,7 @@ void InferenceNode::control() {
 //
 //   9. 发布动作 → publish_action()
 //
-// 频率 = 1 / (dt × decimation) (如 0.004×5=0.02 → 50Hz)
+// 频率 = 1 / (dt × decimation) (如 0.0025×8=0.02 → 50Hz)
 // ============================================================================
 void InferenceNode::inference() {
     pthread_setname_np(pthread_self(), "inference");
@@ -643,7 +643,7 @@ void InferenceNode::inference() {
 //   main       - SCHED_FIFO 50  - ROS2 初始化 + executor 管理
 //   executor₀  - 默认调度       - 话题订阅回调 (joy, cmd_vel, joint_state, elevation)
 //   executor₁  - 默认调度       - Service 回调 (reset_joints, init_motors, ...)
-//   control    - SCHED_FIFO 70  - 动作发布 (250Hz)
+//   control    - SCHED_FIFO 70  - 动作发布 (400Hz)
 //   inference  - SCHED_FIFO 70  - ONNX 推理 (50Hz)
 // ============================================================================
 int main(int argc, char** argv) {

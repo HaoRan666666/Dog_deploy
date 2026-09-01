@@ -80,7 +80,7 @@ struct ObsSourceSpec {
 // 线程模型 (三线程):
 //   main 线程:      ROS2 回调 (话题订阅、Service 处理)
 //   inference 线程: 50Hz, SCHED_FIFO priority=70, ONNX 推理 + 观测构建
-//   control 线程:   250Hz, SCHED_FIFO priority=70, 动作发布
+//   control 线程:   400Hz, SCHED_FIFO priority=70, 动作发布
 //
 // 运行模式:
 //   手柄模式 (默认):   摇杆 → cmd_vel
@@ -301,7 +301,7 @@ class InferenceNode : public rclcpp::Node {
     //
     // main 线程:       ROS2 回调 — 话题订阅和 Service 响应 (由 executor 驱动)
     // inference 线程:  50Hz, ONNX 推理 — 采集传感器数据 → 构建观测 → 帧栈更新 → 模型推理
-    // control 线程:    250Hz, 动作发布 — 将最新推理结果 act_ 发布到 /action
+    // control 线程:    400Hz, 动作发布 — 将最新推理结果 act_ 发布到 /action
     // =========================================================================
     std::thread inference_thread_;
     std::thread control_thread_;

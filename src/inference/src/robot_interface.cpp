@@ -168,7 +168,7 @@ void RobotInterface::setup_imu(){
 // forward_close_chain removed — no closed-chain ankle mechanism in use
 
 // ============================================================================
-// apply_action — 施加动作到机器人硬件 (最核心接口, control 线程 250Hz)
+// apply_action — 施加动作到机器人硬件 (最核心接口, control 线程 400Hz)
 //
 // MIT 控制公式 (在电机驱动层执行):
 //   τ = kp × (p_des - p_actual) + kd × (v_des - v_actual) + τ_ff
@@ -275,7 +275,7 @@ void RobotInterface::reset_joints(std::vector<double> joint_default_angle) {
 //
 // 流程:
 //   ① refresh_joints() 读取当前所有关节位置作为起点
-//   ② 计算步数 = duration / dt (如 3s / 0.004 = 750 步)
+//   ② 计算步数 = duration / dt (如 3s / 0.0025 = 1200 步)
 //   ③ 每步: lerp(起点, 终点, t) → MIT 命令 → sleep(dt)
 //   ④ 到达终点后, 恢复满 KP 保持姿态
 //
@@ -292,7 +292,7 @@ void RobotInterface::stand_up(std::vector<double> joint_default_angle, double du
         throw std::runtime_error("Motors not initialized, cannot stand up");
     }
     const int num_joints = motors_cfg_->motor_id_.size();
-    const double dt = 0.004;                        // 控制周期 250Hz
+    const double dt = 0.0025;                       // 站立插值步长 400Hz（与 RL 控制回路一致）
     const int steps = static_cast<int>(duration_sec / dt);
     if (steps < 1) {
         throw std::runtime_error("Stand up duration too short");
