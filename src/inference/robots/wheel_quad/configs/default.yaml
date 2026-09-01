@@ -49,7 +49,7 @@ inference_node:
              -0.8, 0.8]
 
         # 关节默认角度 (站立姿态, 16 个关节, URDF 顺序)
-        # 顺序: LF, RF, LB, RB (对应 can0/can1/can2/can3)
+        # 顺序: LF, RF, LB, RB (对应 can1/can2/can3/can4)
         # 每腿: [ABAD, HIP, KENN, FOOT]
         # 来源: 训练资产 default_joint_pos = {ABAD:0.0, HIP:0.72, KENN:-1.41}
         #       FOOT(轮子) 未指定 → 默认 0.0 (速度控制, 该值无意义)

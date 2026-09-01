@@ -5,10 +5,10 @@
 #   4 条腿 × (髋 + 大腿 + 小腿 + 轮) = 16 个电机
 #
 # CAN 总线分配 (每条总线电机 ID 独立):
-#   can0: 左前腿 — ID1髋, ID2大腿, ID3小腿, ID4轮
-#   can1: 右前腿 — ID1髋, ID2大腿, ID3小腿, ID4轮
-#   can2: 左后腿 — ID1髋, ID2大腿, ID3小腿, ID4轮
-#   can3: 右后腿 — ID1髋, ID2大腿, ID3小腿, ID4轮
+#   can1: 左前腿 — ID1髋, ID2大腿, ID3小腿, ID4轮
+#   can2: 右前腿 — ID1髋, ID2大腿, ID3小腿, ID4轮
+#   can3: 左后腿 — ID1髋, ID2大腿, ID3小腿, ID4轮
+#   can4: 右后腿 — ID1髋, ID2大腿, ID3小腿, ID4轮
 #
 # TODO: 按实际硬件调整:
 #   - motor_model: 电机子型号 (0/1)
@@ -29,7 +29,7 @@ motors:
          1, 2, 3, 4,
          1, 2, 3, 4]
     motor_interface_type: ["can", "can", "can", "can"]
-    motor_interface: ["can0", "can1", "can2", "can3"]
+    motor_interface: ["can1", "can2", "can3", "can4"]
     motor_num: [4, 4, 4, 4]
     # 电机类型 (每电机一个, 16 个): 关节电机 LRO_CAN, 轮电机灵足通用驱动 LINGZU
     motor_type:
