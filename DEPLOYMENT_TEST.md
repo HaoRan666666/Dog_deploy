@@ -152,7 +152,7 @@ sudo -E ros2 launch roboparty_inference inference.launch.py robot:=wheel_quad
 ```
 
 **验收标准**：
-- 节点启动无异常、无 `Exception caught: ...`（注意：**IMU 必须插着**，否则启动时 `Failed to open serial port: /dev/ttyACM0` 直接退出）；
+- 节点启动无异常、无 `Exception caught: ...`（IMU 未接时打印 `[RobotInterface] WARNING: IMU init failed`，节点仍可启动、电机/站立等 service 可用，但**推理被禁用**）；
 - 终端打印出参数（obs 布局、模型名、关节默认角度等）和手柄提示；
 - 打印出 `Press 'B' ... / 'A' ... / 'X' ...` 等操作提示。
 
@@ -231,12 +231,99 @@ ros2 topic echo /joint_states    # 关节实际状态
 
 | 现象 | 原因 | 处理 |
 |---|---|---|
-| 启动即退出 `Failed to open serial port` | IMU 没插/路径错/没权限 | 插 IMU、`ls /dev/ttyACM*`、加 dialout 组 |
+| 启动时 `[RobotInterface] WARNING: IMU init failed` | IMU 没插/路径错/没权限 | 节点仍启动、电机可用；推理需插 IMU、`ls /dev/ttyACM*`、加 dialout 组 |
 | `Failed to set realtime priority` | rtprio=0 / 无 CAP_SYS_NICE | `sudo -E` 启动，或 setcap/limits.conf |
 | 链接报 `x86-64` | onnxruntime x64 污染 | `rm -rf src/inference/thirdparty/onnxruntime` 重建 |
 | 电机无响应 | CAN 口没 up / ID 错 / 接线错 | `ip link show`、核对 `motor_id`、单电机测试 |
 | 手柄没反应 | joy_node 没起 / 不在同域 / 映射错 | 阶段 3 逐项核对 |
 | 推理 action 有 NaN/Inf | 模型/观测异常 | 回阶段 5，检查 obs/模型 |
+
+---
+
+## 10. 附加：用 ROS2 Service 脚本化验证（替代手柄，可自动化）
+
+> 阶段 4/5 里「按 B 使能 → 按 A 站立 → 按 X 启动推理」这一串手柄操作，
+> 都能用推理节点内置的 ROS2 Service 完成。优点：可写进脚本、无人工误操作、
+> 每步有明确的 `success/message` 返回值可断言，适合部署前做脚本化验收。
+
+### 10.1 Service 清单（全部为 `std_srvs/srv/Trigger`，无参数）
+
+| Service | 功能 | 对应手柄 |
+|---|---|---|
+| `/init_motors` | 使能 16 个电机 | B（初始化） |
+| `/deinit_motors` | 失能所有电机 | B（再按一次） |
+| `/stand_up` | 平滑插值站立复位 | A |
+| `/reset_joints` | 直接跳回默认姿态（降 KP 防冲击，不插值） | — |
+| `/start_inference` | 启动策略推理 | X |
+| `/stop_inference` | 暂停策略推理 | X（再按一次） |
+| `/set_zeros` | 硬件标零 | —（或走 `scripts/set_zero.py`） |
+| `/clear_errors` | 清除电机故障 | — |
+| `/refresh_joints` | 主动刷新电机状态 | — |
+| `/read_joints` | 读关节并发布 `/joint_states` | — |
+| `/read_imu` | 读 IMU 并发布 `/imu` | — |
+
+### 10.2 调用语法
+
+```bash
+ros2 service list
+ros2 service type /init_motors          # 期望 std_srvs/srv/Trigger
+
+# 通用格式（所有 service 一致）
+ros2 service call /init_motors std_srvs/srv/Trigger "{}"
+# → success: true, message: "Motors initialized successfully"
+```
+
+**前置约束**（来源：[ros_interface.cpp](src/inference/src/ros_interface.cpp) 各回调）：
+
+- `stand_up` / `reset_joints` / `set_zeros` 要求**推理已停止**，否则返回 `Inference is running, cannot ...`；
+- 所有电机操作要求**先 `init_motors`**，否则返回 `Motors are not initialized, ...`；
+- `init_motors` / `start_inference` 有幂等保护，重复调用返回 `already ...`。
+
+### 10.3 脚本化验收流程（架起状态，对应阶段 4/5）
+
+```bash
+# A. 节点空载启动后，先验 IMU
+ros2 service call /read_imu std_srvs/srv/Trigger "{}"
+ros2 topic echo /imu            # 四元数/角速度刷新、模长≈1
+
+# B. 使能电机 + 读关节
+ros2 service call /init_motors std_srvs/srv/Trigger "{}"     # success: true
+ros2 service call /read_joints std_srvs/srv/Trigger "{}"
+ros2 topic echo /joint_states    # 16 关节持续发布
+
+# C. 站立复位（平滑插值，约 3s）
+ros2 service call /stand_up std_srvs/srv/Trigger "{}"        # 3s 后 success: true
+
+# D. 启停推理（仍架起，观察 /action）
+ros2 service call /start_inference std_srvs/srv/Trigger "{}"
+ros2 topic echo /action          # 无 NaN/Inf/突变
+ros2 service call /stop_inference std_srvs/srv/Trigger "{}"
+
+# E. 收尾
+ros2 service call /deinit_motors std_srvs/srv/Trigger "{}"
+ros2 service call /clear_errors std_srvs/srv/Trigger "{}"
+```
+
+### 10.4 一键脚本模板（verify_modules.sh）
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+SRV() { ros2 service call "$1" std_srvs/srv/Trigger "{}"; }
+
+echo "== IMU ==";          SRV /read_imu
+echo "== init motors ==";  SRV /init_motors
+echo "== read joints ==";  SRV /read_joints
+echo "== stand up ==";     SRV /stand_up
+echo "== start infer ==";  SRV /start_inference
+sleep 2
+echo "== stop infer ==";   SRV /stop_inference
+echo "== deinit ==";       SRV /deinit_motors
+echo "== clear errors =="; SRV /clear_errors
+```
+
+> ⚠️ 每步注意看返回的 `success:` 是否为 `true`；为 `false` 时看 `message` 定位原因。
+> `stand_up` / `start_inference` 期间机器人必须保持架起离地，确认 `/action`、`/joint_states` 无异常后再进入阶段 6 落地。
 
 ---
 

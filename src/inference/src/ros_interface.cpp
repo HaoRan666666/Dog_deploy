@@ -282,8 +282,13 @@ void InferenceNode::subs_joy_callback(const std::shared_ptr<sensor_msgs::msg::Jo
 
     // ── 按钮 X (buttons[3]): 启动/暂停推理 ──────────────────────────────
     if (msg->buttons[3] == 1 && msg->buttons[3] != last_button2_) {
-        is_running_.store(!is_running_.load());
-        RCLCPP_INFO(this->get_logger(), "Inference %s", is_running_.load() ? "started" : "paused");
+        if (!is_running_.load() && !robot_->has_imu()) {
+            // 无 IMU 时禁止启动推理 (停止仍允许)
+            RCLCPP_WARN(this->get_logger(), "IMU not initialized, cannot start inference.");
+        } else {
+            is_running_.store(!is_running_.load());
+            RCLCPP_INFO(this->get_logger(), "Inference %s", is_running_.load() ? "started" : "paused");
+        }
     }
 
     // ── 按钮 Y (buttons[4]): 切换控制源 (手柄 ↔ /cmd_vel) ──────────────
@@ -579,6 +584,11 @@ void InferenceNode::start_inference_srv(const std::shared_ptr<std_srvs::srv::Tri
     if (is_running_.load()) {
         response->success = false;
         response->message = "Inference is already running!";
+        return;
+    }
+    if (!robot_->has_imu()) {
+        response->success = false;
+        response->message = "IMU not initialized, cannot start inference.";
         return;
     }
     is_running_.store(true);
