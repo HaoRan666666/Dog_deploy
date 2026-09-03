@@ -426,11 +426,18 @@ void InferenceNode::apply_action() {
         // 位置目标 (腿部) + 速度目标 (轮子) 一并写入硬件
         robot_->apply_action(last_act_, last_act_vel_);
     } else if (!robot_->is_operating_.load()) {
-        // ── 推理暂停但电机已使能: 保持当前位置 ──────────────────────────
-        // 持续下发 MIT 命令喂 CAN 看门狗, 防止电机长时间无命令而自动失力;
-        // 同时保持当前姿态不塌。stand_up/reset_joints 执行期间 (is_operating_)
-        // 跳过, 由 main 线程的插值命令独占控制。
-        robot_->hold_position();
+        // ── 推理暂停但电机已使能 ────────────────────────────────────────
+        // 区分"已起身"与"未起身":
+        //   - 已起身 (is_stood_up_): 保持默认站立姿态 (满 KP)。last_act_ 已在
+        //     reset_runtime_state 时复位为 joint_default_angle_。
+        //   - 未起身 (B 使能后): 零力矩喂狗, 关节可自由转动, 仅防超时失力。
+        // stand_up/reset_joints 执行期间 (is_operating_) 跳过, 由 main 线程
+        // 的插值命令独占控制。
+        if (robot_->is_stood_up_.load()) {
+            robot_->apply_action(last_act_, last_act_vel_);
+        } else {
+            robot_->apply_zero_torque();
+        }
     }
 }
 

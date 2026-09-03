@@ -6,7 +6,7 @@
 // ============================================================================
 // OperatingScope — RAII 守卫: 标记 stand_up / reset_joints 执行期间
 //
-// 置位 is_operating_ 后, control 线程会跳过 hold_position(), 避免保持命令
+// 置位 is_operating_ 后, control 线程会跳过下发 (保持站立/零力矩), 避免
 // 与插值动作相互干扰。析构时自动清除, 保证异常路径也不泄漏标志。
 // ============================================================================
 namespace {
@@ -246,23 +246,23 @@ void RobotInterface::apply_action(std::vector<float> p,
 }
 
 // ============================================================================
-// hold_position — 保持当前位置 (电机已使能但推理未运行时调用)
+// apply_zero_torque — 零力矩喂狗 (电机已使能但未起身时调用)
 //
-// 与控制线程的 apply_action 不同, 这里的目标位置是"当前实际位置"而非策略
-// 输出, 因此位置误差≈0, 只靠 kd 阻尼抑制运动, 不产生主动拉扯力矩。
+// 以 kp=kd=tau=0 回发 MIT 命令, 电机保持使能状态 (不断帧, 不触发 CAN 通信
+// 看门狗超时失力), 但不施加任何保持力矩, 关节可自由转动。
 //
 // 流程与 apply_action 一致:
-//   ① 读回当前编码器位置 → joint_q_
-//   ② 组装目标: pos=当前实际, vel=0, kp/kd=默认, tau=0
+//   ① 读回当前编码器位置 → joint_q_ (供观测线程读取)
+//   ② 组装目标: kp=kd=tau=0
 //   ③ 发送 MIT 命令 (喂看门狗)
 // ============================================================================
-void RobotInterface::hold_position() {
+void RobotInterface::apply_zero_torque() {
     // 电机未初始化 → 不写硬件
     if (!is_init_.load()) {
         return;
     }
 
-    // ① 反向读出当前实际位置 (URDF 顺序)
+    // ① 反向读出当前实际位置 (URDF 顺序, 保持 joint_q_ 更新)
     {
         std::unique_lock<std::mutex> lock(joint_mutex_);
         exec_motors_parallel([this](std::shared_ptr<MotorDriver>& motor, int idx) {
@@ -277,15 +277,14 @@ void RobotInterface::hold_position() {
         });
     }
 
-    // ② 组装目标: 位置=当前实际位置, 速度=0, kp/kd=默认, 力矩=0
+    // ② 组装零力矩目标: kp=kd=tau=0, 电机使能但无力
     {
         std::unique_lock<std::mutex> lock(motors_mutex_);
         for (size_t i = 0; i < motor_pos_target_.size(); i++) {
-            const size_t ji = motor2urdf_[i];
-            motor_pos_target_[i] = joint_q_[ji];
+            motor_pos_target_[i] = 0.0f;
             motor_vel_target_[i] = 0.0f;
-            motor_kp_target_[i]  = static_cast<float>(robot_cfg_->kp_[i]);
-            motor_kd_target_[i]  = static_cast<float>(robot_cfg_->kd_[i]);
+            motor_kp_target_[i]  = 0.0f;
+            motor_kd_target_[i]  = 0.0f;
             motor_tau_target_[i] = 0.0f;
         }
     }
@@ -305,7 +304,7 @@ void RobotInterface::hold_position() {
 // 闭链关节需要先逆解耦: 独立关节角度 → 并联电机目标位置
 // ============================================================================
 void RobotInterface::reset_joints(std::vector<double> joint_default_angle) {
-    OperatingScope operating{is_operating_};  // 阻塞操作期间, control 线程跳过 hold_position
+    OperatingScope operating{is_operating_};  // 阻塞操作期间, control 线程跳过下发
 
     // ① 阶段1: 低 KP 缓慢复位
     {
@@ -329,6 +328,8 @@ void RobotInterface::reset_joints(std::vector<double> joint_default_angle) {
         }
     }
     motors_mit_cmd();
+
+    is_stood_up_.store(true);  // 复位完成, 标记已站立
 }
 
 // ============================================================================
@@ -356,7 +357,7 @@ void RobotInterface::stand_up(std::vector<double> joint_default_angle, double du
     if (!is_init_.load()) {
         throw std::runtime_error("Motors not initialized, cannot stand up");
     }
-    OperatingScope operating{is_operating_};  // 阻塞操作期间, control 线程跳过 hold_position
+    OperatingScope operating{is_operating_};  // 阻塞操作期间, control 线程跳过下发
 
     const int num_joints = motors_cfg_->motor_id_.size();
     const double dt = 0.0025;                       // 站立插值步长 400Hz（与 RL 控制回路一致）
@@ -385,7 +386,7 @@ void RobotInterface::stand_up(std::vector<double> joint_default_angle, double du
                 motor_pos_target_[i] = static_cast<float>(
                     start_pos[ji] + (joint_default_angle[ji] - start_pos[ji]) * t);
                 motor_vel_target_[i] = 0.0f;
-                motor_kp_target_[i]  = static_cast<float>(robot_cfg_->kp_[i]) * (1.0f / 2.5f);  // 40% KP
+                motor_kp_target_[i]  = static_cast<float>(robot_cfg_->kp_[i]);  // 满 KP (插值本身已平滑)
                 motor_kd_target_[i]  = static_cast<float>(robot_cfg_->kd_[i]);
                 motor_tau_target_[i] = 0.0f;
             }
@@ -402,6 +403,8 @@ void RobotInterface::stand_up(std::vector<double> joint_default_angle, double du
         }
     }
     motors_mit_cmd();
+
+    is_stood_up_.store(true);  // 起身完成, 标记已站立
 }
 
 // ============================================================================
@@ -456,6 +459,7 @@ void RobotInterface::init_motors() {
     exec_motors_parallel([](std::shared_ptr<MotorDriver>& motor, int idx) {
         motor->init_motor();
     });
+    is_stood_up_.store(false);  // 刚使能, 尚未起身
     is_init_.store(true);   // 原子写入, control 线程立即可见
 }
 
@@ -464,6 +468,7 @@ void RobotInterface::deinit_motors() {
     exec_motors_parallel([](std::shared_ptr<MotorDriver>& motor, int idx) {
         motor->deinit_motor();
     });
+    is_stood_up_.store(false);  // 失能后视为未起身
     is_init_.store(false);  // 原子写入, 阻止 control 线程继续发送命令
 }
 

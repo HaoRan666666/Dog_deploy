@@ -282,8 +282,17 @@ void InferenceNode::subs_joy_callback(const std::shared_ptr<sensor_msgs::msg::Jo
 
     // ── 按钮 X (buttons[3]): 启动/暂停推理 ──────────────────────────────
     if (msg->buttons[3] == 1 && msg->buttons[3] != last_button2_) {
-        is_running_.store(!is_running_.load());
-        RCLCPP_INFO(this->get_logger(), "Inference %s", is_running_.load() ? "started" : "paused");
+        if (is_running_.load()) {
+            // 运行 → 暂停: 重置运行时状态, 平滑过渡回默认站立姿态
+            reset_runtime_state();
+            if (robot_->is_init_.load()) {
+                robot_->stand_up(joint_default_angle_);  // 从当前姿态平滑插值回站立 (~3s)
+            }
+            RCLCPP_INFO(this->get_logger(), "Inference paused");
+        } else {
+            is_running_.store(true);
+            RCLCPP_INFO(this->get_logger(), "Inference started");
+        }
     }
 
     // ── 按钮 Y (buttons[4]): 切换控制源 (手柄 ↔ /cmd_vel) ──────────────
