@@ -67,9 +67,9 @@ robot:
     # 电机方向符号: +1 正向, -1 反向
     #        髋  大腿 小腿  轮
     motor_sign:
-        [ 1,  1,  1,  1,    # 左前 (LF): ABD+1 HIP+1 KNEE+1
+        [ 1,  1,  1,  -1,    # 左前 (LF): ABD+1 HIP+1 KNEE+1
           1, -1, -1,  1,    # 右前 (RF): ABD+1 HIP-1 KNEE-1
-         -1,  1,  1,  1,    # 左后 (LB): ABD-1 HIP+1 KNEE+1
+         -1,  1,  1,  -1,    # 左后 (LB): ABD-1 HIP+1 KNEE+1
          -1, -1, -1,  1]    # 右后 (RB): ABD-1 HIP-1 KNEE-1
 
     # 不设 close_chain_motor_idx → 无闭链解耦
