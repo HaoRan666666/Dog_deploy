@@ -407,21 +407,31 @@ void InferenceNode::reset_policy_runtime(PolicyRuntime& policy) {
 // 其中 α = act_alpha_ (如 0.9)，值越小平滑越多，值越大响应越快
 // ============================================================================
 void InferenceNode::apply_action() {
-    // 推理未运行或电机未初始化 → 不写硬件
-    if (!is_running_.load() || !robot_->is_init_.load()) {
+    // 电机未初始化 → 不写硬件
+    if (!robot_->is_init_.load()) {
         return;
     }
-    {
-        std::unique_lock<std::mutex> lock(act_mutex_);
-        // EMA 平滑: 使动作输出连续变化，避免突变导致机器人抖动
-        // 位置 (腿部) 与速度 (轮子) 分别平滑
-        for (size_t i = 0; i < act_.size(); i++) {
-            last_act_[i] = act_alpha_ * act_[i] + (1 - act_alpha_) * last_act_[i];
-            last_act_vel_[i] = act_alpha_ * act_vel_[i] + (1 - act_alpha_) * last_act_vel_[i];
+
+    if (is_running_.load()) {
+        // ── 推理运行中: EMA 平滑策略输出并下发 ──────────────────────────
+        {
+            std::unique_lock<std::mutex> lock(act_mutex_);
+            // EMA 平滑: 使动作输出连续变化，避免突变导致机器人抖动
+            // 位置 (腿部) 与速度 (轮子) 分别平滑
+            for (size_t i = 0; i < act_.size(); i++) {
+                last_act_[i] = act_alpha_ * act_[i] + (1 - act_alpha_) * last_act_[i];
+                last_act_vel_[i] = act_alpha_ * act_vel_[i] + (1 - act_alpha_) * last_act_vel_[i];
+            }
         }
+        // 位置目标 (腿部) + 速度目标 (轮子) 一并写入硬件
+        robot_->apply_action(last_act_, last_act_vel_);
+    } else if (!robot_->is_operating_.load()) {
+        // ── 推理暂停但电机已使能: 保持当前位置 ──────────────────────────
+        // 持续下发 MIT 命令喂 CAN 看门狗, 防止电机长时间无命令而自动失力;
+        // 同时保持当前姿态不塌。stand_up/reset_joints 执行期间 (is_operating_)
+        // 跳过, 由 main 线程的插值命令独占控制。
+        robot_->hold_position();
     }
-    // 位置目标 (腿部) + 速度目标 (轮子) 一并写入硬件
-    robot_->apply_action(last_act_, last_act_vel_);
 }
 
 // ============================================================================
