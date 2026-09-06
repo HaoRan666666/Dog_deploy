@@ -119,7 +119,7 @@ ros2 run joy joy_node                 # 不带 device_name，SDL 自动认第一
 ros2 topic echo /joy                  # 另开终端，按键看 buttons[] / axes[]
 ```
 
-**实测映射（wheel_quad，左推为正）**：
+**实测映射（wheel_quad，上/右推为正）**：
 
 | 物理操作 | 数组下标 | 功能 |
 |---|---|---|
@@ -128,13 +128,13 @@ ros2 topic echo /joy                  # 另开终端，按键看 buttons[] / axe
 | X | `buttons[3]` | 推理启动/暂停 |
 | Y | `buttons[4]` | 控制源切换（手柄 ↔ /cmd_vel）|
 | LB | `buttons[6]` | 中断模式切换 |
-| 左摇杆上下 | `axes[0]` | vx（前进/后退）|
-| 左摇杆左右 | `axes[1]`（左推 +）| vy（左右平移）|
+| 左摇杆上下 | `axes[1]` | vx（前进/后退）|
+| 左摇杆左右 | `axes[0]`（右推 +）| vy（左右平移，代码取反）|
 | 右摇杆左右 | `axes[2]`（左推 +）| wz（转向）|
 
 **验收标准**：
 - 每个按键按下时对应下标变 `1`、松开变 `0`；
-- 摇杆方向与符号与上表一致（**前推 vx 的正负需实测确认**，见 [ros_interface.cpp:246](src/inference/src/ros_interface.cpp#L246)）。
+- 摇杆方向与符号与上表一致（左摇杆上下/左右下标已实测互换，见 [ros_interface.cpp:246](src/inference/src/ros_interface.cpp#L246)）。
 
 > 多机器人同网段时，每台设独立 `ROS_DOMAIN_ID` 或用话题 remap 隔离（避免互相收到别人的手柄）。
 
