@@ -11,7 +11,7 @@
 
 inference_node:
     ros__parameters:
-        model_names: ["policy_flat.onnx"]
+        model_names: ["policy_flat_0905.onnx"]
         obs_layouts:
           - "ang_vel:3, gravity_b:3, cmd_vel:3, dof_pos:12, dof_vel:16, last_action:16"
         frame_stacks: [3]
@@ -26,7 +26,7 @@ inference_node:
         obs_scales_dof_pos: 1.0
         obs_scales_dof_vel: 1.0
         obs_scales_gravity_b: 1.0
-        clip_observations: 150.0
+        clip_observations: 1000.0
         # 每关节动作缩放 (USD 顺序: [ABAD×4, HIP×4, KENN×4, FOOT×4])
         action_scales:
             [0.125, 0.125, 0.125, 0.125,   # ABAD 髋侧摆 (位置控制)
@@ -35,7 +35,7 @@ inference_node:
              5.0, 5.0, 5.0, 5.0]           # FOOT 轮子 (速度控制)
         # 速度控制关节的 USD 索引 (轮子 → 走速度控制, 不叠加默认角度)
         wheel_joint_indices: [12, 13, 14, 15]
-        clip_actions: 150.0
+        clip_actions: 1000.0
 
         # USD → URDF 关节顺序映射
         # USD (Isaac Sim, 按类型分组): [ABAD×4, HIP×4, KENN×4, FOOT×4], 每组内 LB/LF/RB/RF
@@ -44,9 +44,9 @@ inference_node:
 
         # 速度指令限幅 [vx_min, vx_max, vy_min, vy_max, ωz_min, ωz_max]
         clip_cmd:
-            [-0.4, 0.6,
-             -0.4, 0.4,
-             -0.8, 0.8]
+            [-1.0, 1.0,
+             -0.8, 0.8,
+             -1.0, 1.0]
 
         # 关节默认角度 (站立姿态, 16 个关节, URDF 顺序)
         # 顺序: LF, RF, LB, RB (对应 can1/can2/can3/can4)
