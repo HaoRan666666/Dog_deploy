@@ -245,7 +245,7 @@ void InferenceNode::subs_joy_callback(const std::shared_ptr<sensor_msgs::msg::Jo
         // x 方向线速度: 左摇杆上下 (axes[1])，clip_cmd_[0]~[1] 限幅
         cmd_vel_[0] = std::clamp(msg->axes[1] * clip_cmd_[1], clip_cmd_[0], clip_cmd_[1]);
         // y 方向线速度: 左摇杆左右 (axes[0]，右推为正)，clip_cmd_[2]~[3] 限幅
-        cmd_vel_[1] = std::clamp(-msg->axes[0] * clip_cmd_[3], clip_cmd_[2], clip_cmd_[3]);
+        cmd_vel_[1] = std::clamp(msg->axes[0] * clip_cmd_[3], clip_cmd_[2], clip_cmd_[3]);
         // z 方向角速度: 右摇杆左右 (axes[2])，无扳机轴
         cmd_vel_[2] = std::clamp(msg->axes[2] * clip_cmd_[5], clip_cmd_[4], clip_cmd_[5]);
     }
