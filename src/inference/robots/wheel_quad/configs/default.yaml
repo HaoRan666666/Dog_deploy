@@ -11,7 +11,7 @@
 
 inference_node:
     ros__parameters:
-        model_names: ["policy_flat_0905.onnx"]
+        model_names: ["policy_flat_092243.onnx"]
         obs_layouts:
           - "ang_vel:3, gravity_b:3, cmd_vel:3, dof_pos:12, dof_vel:16, last_action:16"
         frame_stacks: [3]
